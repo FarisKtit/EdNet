@@ -12,6 +12,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <!-- <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet"> -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 
     <!-- Fonts -->
@@ -69,9 +70,11 @@
             margin-bottom: 30px;
         }
     </style>
+    <link href="{{ asset('css/dashboard/dashboard.css') }}" rel="stylesheet">
+    @yield('styles')
 </head>
 <body>
-    <div id="app">
+    <div id="">
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
                 <div class="navbar-header">
@@ -128,11 +131,42 @@
                 </div>
             </div>
         </nav>
+        <button type="button" id="toggle-menu" class="btn btn-light">Close Menu &nbsp<i class="fas fa-arrows-alt-h"></i></button>
 
-        @yield('content')
+  <div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="bg-light border-right" id="sidebar-wrapper">
+      <div class="list-group list-group-flush">
+        <a href="#" class="list-group-item list-group-item-action bg-light">Home</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Profile</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Friends</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Messenger</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Resources</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Log out</a>
+      </div>
     </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+
+
+      <div class="container-fluid">
+        @yield('content')
+      </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+</div>
 
     <!-- Scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/dashboard/dashboard.js') }}"></script>
+    @yield('scripts')
 </body>
 </html>

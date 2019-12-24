@@ -1,23 +1,10 @@
-@extends('layouts.app')
-
+@extends('layouts.dashboard')
+@section('styles')
+    <link href="{{ asset('css/dashboard/home.css') }}" rel="stylesheet">
+@stop
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
 
-                <div class="panel-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
+    <h1 class="mt-4">Hi {{ auth()->user()->name }}</h1>
+    <p>Welcome to your homepage. In this page you can view your friends posts and keep up to date. You may navigate to other pages using the side menu to the left. For more instructions please click <a href="#"><b>here</b></a>.</p>
 
-                    You are logged in!
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 @endsection
