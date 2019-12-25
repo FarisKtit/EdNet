@@ -39,6 +39,39 @@
                             </div>
                         </div>
 
+                        <div class="form-group{{ $errors->has('occupation') ? ' has-error' : '' }}">
+                            <label for="occupation" class="col-md-4 control-label">Occupation</label>
+
+                            <div class="col-md-6">
+                                <select class="form-control form-control-sm" name="occupation">
+                                  @foreach($occupations as $occupation)
+                                    <option value="{{ $occupation->id }}">{{ $occupation->name }}</option>
+                                  @endforeach
+                                </select>
+
+                                @if ($errors->has('occupation'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('occupation') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('birthdate') ? ' has-error' : '' }}">
+                            <label for="birthdate" class="col-md-4 control-label">Date of birth</label>
+
+                            <div class="col-md-6">
+                              <input class="form-control" type="date" placeholder="yyyy-mm-dd" name="birthdate">
+
+
+                                @if ($errors->has('birthdate'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('birthdate') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                             <label for="password" class="col-md-4 control-label">Password</label>
 
