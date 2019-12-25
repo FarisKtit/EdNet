@@ -33,6 +33,14 @@
       </div>
       <div class="col-md-6">
         <h5>Date of birth</h5>
+        <p>{{ $user->birthdate }}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <h4 id="profile-occupation">{{ $user->occupations[0]->name }}</h4>
+      </div>
+      <div class="col-md-6">
       </div>
     </div>
 

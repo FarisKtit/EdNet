@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Occupation;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\DB;
 
 class RegisterController extends Controller
 {
@@ -39,6 +41,12 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+    public function showRegistrationForm()
+    {
+      $occupations = Occupation::all();
+      return view('auth.register', compact('occupations'));
+    }
+
     /**
      * Get a validator for an incoming registration request.
      *
@@ -50,6 +58,8 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
+            'occupation' => 'required',
+            'birthdate' => 'required|date',
             'password' => 'required|string|min:6|confirmed',
         ]);
     }
@@ -62,10 +72,17 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'birthdate' => $data['birthdate'],
             'password' => bcrypt($data['password']),
         ]);
+
+        $occupation_id = $data['occupation'];
+        $user_id = $user->id;
+        DB::insert('INSERT INTO occupations_users(occupation_id, user_id) VALUES(?, ?)', [$occupation_id, $user_id]);
+        return $user;
     }
 }
