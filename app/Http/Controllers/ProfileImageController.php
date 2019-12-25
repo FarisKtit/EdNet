@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\ProfileImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class ProfileImageController extends Controller
 {
@@ -14,7 +16,8 @@ class ProfileImageController extends Controller
      */
     public function index()
     {
-        //
+        $user = Auth::user();
+        return view('dashboard.profile.user_profile_img', compact('user'));
     }
 
     /**

@@ -131,7 +131,7 @@
                 </div>
             </div>
         </nav>
-        <button type="button" id="toggle-menu" class="btn btn-light">Close Menu &nbsp<i class="fas fa-arrows-alt-h"></i></button>
+        <button type="button" id="toggle-menu" class="btn btn-default">Close Menu &nbsp<i class="fas fa-arrows-alt-h"></i></button>
 
   <div class="d-flex" id="wrapper">
 

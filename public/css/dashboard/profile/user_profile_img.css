@@ -1,0 +1,25 @@
+.profile-image-title {
+  text-align: center;
+}
+.profile-image-title form {
+  width: 100%;
+}
+#profile-img {
+  width: 100%;
+  text-align: center;
+}
+.profile-image-title h3 {
+  margin-top: 0px;
+}
+.profile-image-upload-msg {
+  display: none;
+}
+.profile-image-upload-btn {
+  margin: 0 auto;
+  display: none;
+}
+#profile-image-to-upload {
+  text-align: center;
+  display: none;
+  margin: 0 auto;
+}
