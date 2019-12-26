@@ -19,7 +19,18 @@
 <form method="post" action="{{ route('update_profile') }}">
   <input type="hidden" name="_token" value="{{ csrf_token() }}">
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4 profile-edit-upload-img-wrapper">
+      <div class="row">
+        <div class="col-md-12">
+          <img src="img/user.jpg" id="profile-img" class="mx-auto d-block img-thumbnail">
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-md-12">
+          <a href="{{ route('edit_profile_image') }}">Upload Photo</a>
+        </div>
+      </div>
     </div>
     <div class="col-md-4">
       <div class="row">
@@ -106,7 +117,7 @@
       <div class="col-md-12">
         <div class="row">
           <div class="col-md-6">
-            <input type="submit" class="btn btn-md btn-dark" name="button"/>
+            <input type="submit" class="btn btn-md btn-default" name="button"/>
           </div>
           <div class="col-md-6">
 
