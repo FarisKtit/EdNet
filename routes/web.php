@@ -23,3 +23,4 @@ Route::get('/edit_profile', 'ProfileController@edit_profile')->name('edit_profil
 Route::get('/edit_profile_image', 'ProfileImageController@index')->name('edit_profile_image');
 Route::post('/update_profile', 'ProfileController@update_profile')->name('update_profile');
 Route::post('/upload_profile_image', 'ProfileImageController@store')->name('upload_profile_image');
+Route::post('/create_post', 'PostController@store')->name('create_post');

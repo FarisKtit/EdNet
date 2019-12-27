@@ -141,9 +141,9 @@
         <a href="{{ route('home') }}" class="list-group-item list-group-item-action bg-light">Home</a>
         <a href="{{ route('profile') }}" class="list-group-item list-group-item-action bg-light">Profile</a>
         <a href="#" class="list-group-item list-group-item-action bg-light">Friends</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Media</a>
         <a href="#" class="list-group-item list-group-item-action bg-light">Messenger</a>
         <a href="#" class="list-group-item list-group-item-action bg-light">Resources</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Log out</a>
       </div>
     </div>
     <!-- /#sidebar-wrapper -->

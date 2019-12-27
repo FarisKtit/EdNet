@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Occupation;
+use App\Post;
 
 class ProfileController extends Controller
 {
@@ -21,7 +22,9 @@ class ProfileController extends Controller
     public function index()
     {
       $user = Auth::user();
-      return view('dashboard.profile.user_profile', compact('user'));
+      $posts = $user->posts;
+      $posts = $posts->sortByDesc('id');
+      return view('dashboard.profile.user_profile', compact('user', 'posts'));
     }
 
     public function edit_profile()
