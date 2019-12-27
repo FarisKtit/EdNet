@@ -64,5 +64,98 @@
 
 </div>
 
+<div class="row">
+  <div class="col-md-3"></div>
+  <div class="col-md-6">
+    @if(session()->has('success'))
+      <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ session()->get('success') }}
+      </div>
+    @endif
+
+    @if(session()->has('error'))
+      <div class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ session()->get('error') }}
+      </div>
+    @endif
+
+  </div>
+  <div class="col-md-3"></div>
+
+</div>
+
+<div class="row">
+  <div class="col-md-3"></div>
+  <div class="col-md-6">
+    <form method="post" action="{{ route('create_post') }}">
+      {{ csrf_field() }}
+      <div class="form-group">
+        <textarea class="form-control" id="post" placeholder="Create a post" name="post" rows="3"></textarea>
+      </div>
+      <button type="submit" class="btn btn-default user-post-btn">Create Post</button>
+    </form>
+    <hr>
+  </div>
+  <div class="col-md-3"></div>
+
+</div>
+
+<div class="row">
+  <div class="col-md-3">
+
+  </div>
+  <div class="col-md-6">
+    @if(count($posts) == 0)
+      <div class="row">
+        <div class="col-md-12">
+          <h5>You have created no posts!</h5>
+        </div>
+
+      </div>
+    @else
+      @foreach($posts as $post)
+        <div class="row user-posts">
+          <div class="col-md-12 user-post">
+            <div class="row">
+              <div class="col-md-6">
+                <h3>{{ $user->name }}</h3>
+                <h5>{{ $user->occupations[0]->name }}</h5>
+              </div>
+              <div class="col-md-6">
+                <h5><b>Created at:</b> {{ $post->created_at }}</h5>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-md-12">
+                <p class="">{{ $post->content }}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-md-4">
+                <button type="button" class="btn btn-sm btn-default like-btn" name="button">Like</button>
+              </div>
+              <div class="col-md-4">
+                <button type="button" class="btn btn-sm btn-danger delete-post-btn" name="button">Delete</button>
+              </div>
+              <div class="col-md-4">
+                <button type="button" class="btn btn-sm btn-default comment-btn" name="button">Comment</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <hr>
+      @endforeach
+    @endif
+  </div>
+  <div class="col-md-3">
+
+  </div>
+</div>
+
 
 @endsection

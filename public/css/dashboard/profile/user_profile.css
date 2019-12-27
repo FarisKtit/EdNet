@@ -24,3 +24,15 @@
   text-align: center;
   padding-top: 10px;
 }
+.user-post {
+  background-color: #F9F9F9;
+  border-radius: 5px;
+  padding-bottom: 10px;
+}
+.user-post hr {
+  border-color: #E3E1E1;
+}
+
+.user-post .like-btn, .comment-btn, .delete-post-btn {
+  width: 100%;
+}

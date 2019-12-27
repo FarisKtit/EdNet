@@ -1,3 +1,26 @@
 h1 {
   margin-top: 10px;
 }
+
+.home-updates, .home-instructions {
+}
+
+.home-instructions {
+
+}
+
+.home-wall h1 {
+  text-align: center;
+}
+.user-post {
+  background-color: #F9F9F9;
+  border-radius: 5px;
+  padding-bottom: 10px;
+}
+.user-post hr {
+  border-color: #E3E1E1;
+}
+
+.user-post .like-btn, .comment-btn, .delete-post-btn {
+  width: 100%;
+}
