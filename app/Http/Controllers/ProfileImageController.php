@@ -49,23 +49,35 @@ class ProfileImageController extends Controller
 
         $file = $request->file('profile-image');
 
+
+
         //Create path with filename as randome hash
         $path = $file->hashName('profile_images/user_storage_' . Auth::user()->id);
+
+        $thumbnail_path = $file->hashName('profile_images/user_storage_' . Auth::user()->id . '/thumbnail');
 
         $user = Auth::user();
 
         //Delete old profile picture if it exists
         $path_to_delete = storage_path('app/public/' . $user->profile_image_filename);
-        if(file_exists($path_to_delete)) {
+        $thumbnail_path_to_delete = storage_path('app/public/' . $user->profile_image_thumbnail_filename);
+
+        if(!empty($user->profile_image_filename) && file_exists($path_to_delete)) {
           unlink($path_to_delete);
+        }
+        if(!empty($user->profile_image_thumbnail_filename) && file_exists($thumbnail_path_to_delete)) {
+          unlink($thumbnail_path_to_delete);
         }
 
         //Save new path to profile picture
         $user->profile_image_filename = $path;
+        $user->profile_image_thumbnail_filename = $thumbnail_path;
         $user->save();
 
         //Use Image/Intervention for image manipulation
         $image = Image::make($file);
+
+        $thumbnail_image = Image::make($file);
         $crop_st_x = intval($request->get('x1'));
         $crop_st_y = intval($request->get('y1'));
         $crop_w = intval($request->get('w'));
@@ -74,6 +86,7 @@ class ProfileImageController extends Controller
         //Check if image needs cropping, if so crop
         if($crop_w != null && $crop_w != 0 && $crop_h != null && $crop_h != 0) {
           $image = $image->crop($crop_w, $crop_h, $crop_st_x, $crop_st_y);
+          $thumbnail_image = $thumbnail_image->crop($crop_w, $crop_h, $crop_st_x, $crop_st_y);
         }
 
         $image = $image->resize(null, 250, function($constraint) {
@@ -81,9 +94,16 @@ class ProfileImageController extends Controller
           $constraint->upsize();
         });
 
+        $thumbnail_image = $thumbnail_image->resize(null, 50, function($constraint) {
+          $constraint->aspectRatio();
+          $constraint->upsize();
+        });
+
         //Store image and redirect
 
         Storage::put($path, (string) $image->encode(), 'public');
+
+        Storage::put($thumbnail_path, (string) $thumbnail_image->encode(), 'public');
 
         return redirect()->back()->with('success', 'Successfully updated your profile picture.');
 
