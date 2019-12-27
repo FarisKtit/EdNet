@@ -76,6 +76,11 @@ class ProfileImageController extends Controller
           $image = $image->crop($crop_w, $crop_h, $crop_st_x, $crop_st_y);
         }
 
+        $image = $image->resize(null, 250, function($constraint) {
+          $constraint->aspectRatio();
+          $constraint->upsize();
+        });
+
         //Store image and redirect
 
         Storage::put($path, (string) $image->encode(), 'public');
