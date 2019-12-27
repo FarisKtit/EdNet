@@ -13,7 +13,11 @@
 
       </div>
       <div id="profile-img-wrapper" class="col-md-4">
-        <img src="img/user.jpg" id="profile-img" class="mx-auto d-block img-thumbnail">
+        @if(count($user->profile_image_filename) == 0)
+          <img src="img/user.jpg" id="profile-img" class="mx-auto d-block img-thumbnail">
+        @else
+          <img src="storage/{{ $user->profile_image_filename }}" id="profile-img" class="mx-auto d-block img-thumbnail">
+        @endif
         <h1 id="profile-name" class="mt-4">{{ $user->name }}</h1>
         <h4 id="profile-occupation">{{ $user->occupations[0]->name }}</h4>
         <p><b>DOB:</b> {{ $user->birthdate }}</p>

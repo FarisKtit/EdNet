@@ -22,13 +22,17 @@
     <div class="col-md-4 profile-edit-upload-img-wrapper">
       <div class="row">
         <div class="col-md-12">
-          <img src="img/user.jpg" id="profile-img" class="mx-auto d-block img-thumbnail">
+          @if(count($user->profile_image_filename) == 0)
+            <img src="img/user.jpg" id="profile-img" class="mx-auto d-block img-thumbnail">
+          @else
+            <img src="storage/{{ $user->profile_image_filename }}" id="profile-img" class="mx-auto d-block img-thumbnail">
+          @endif
         </div>
       </div>
       <br>
       <div class="row">
         <div class="col-md-12">
-          <a href="{{ route('edit_profile_image') }}">Upload Photo</a>
+          <a href="{{ route('edit_profile_image') }}">Upload New Photo</a>
         </div>
       </div>
     </div>
