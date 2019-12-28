@@ -13,6 +13,13 @@
         </div>
         <button type="button" class="btn btn-sm btn-default" id="search-user-btn" name="button">Search</button>
       </form>
+      <hr>
+      <div class="row">
+        <div class="col-md-12" id="search_results_wrapper">
+
+        </div>
+
+      </div>
     </div>
     <div class="col-md-4">
       <u><h4>Relationship requests</h4></u>
