@@ -1,23 +1,42 @@
 <div class="row">
   <div class="col-md-12">
-    @foreach($users as $user)
-
-      <div class="row">
-        <div class="col-md-4">
-          <img src="" alt="">
-        </div>
-
-        <div class="col-md-4">
-          <h4></h4>
-
-        </div>
-
-        <div class="col-md-4">
-
-        </div>
+    @if(count($users) == 0)
+    <div class="row">
+      <div class="col-md-12">
+        <h5>No users found.</h5>
 
       </div>
-    @endforeach
+
+    </div>
+    @else
+      @foreach($users as $user)
+
+        <div class="row">
+          <div class="col-md-4">
+            <img src="storage/{{ $user->profile_image_thumbnail_filename }}" class="img-thumbnail" alt="">
+          </div>
+
+          <div class="col-md-4">
+            <h4>{{ $user->name }}</h4>
+            <h5>{{ $user->occupation }}</h5>
+
+          </div>
+
+          <div class="col-md-4">
+            @if(is_null($user->accepted))
+              <a href="#"><p>Form relationship</p></a>
+            @elseif($user->accepted == 0)
+              <p>Awaiting decision</p>
+            @else
+              <p>Relationship formed</p>
+            @endif
+            <a href="#"><p>View profile</p></a>
+          </div>
+
+        </div>
+        <hr>
+      @endforeach
+    @endif
 
 
   </div>

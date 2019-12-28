@@ -18,6 +18,7 @@ $(document).ready(function() {
     }).done(function(data){
       $("input").removeAttr("disabled");
       console.log(data);
+      $('#search_results_wrapper').html(data.html);
 
     }).fail(function(jqXHR, status, err){
       $("input").removeAttr("disabled");
