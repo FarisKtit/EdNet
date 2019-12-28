@@ -27,7 +27,7 @@
             <div class="row">
               <div class="col-md-6">
                 <h3>{{ $user->name }}</h3>
-                <h5>{{ $user->occupations[0]->name }}</h5>
+                <h5>{{ $user->occupation->name }}</h5>
               </div>
               <div class="col-md-6">
                 <h5><b>Created at:</b> {{ $post->created_at }}</h5>

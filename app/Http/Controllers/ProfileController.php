@@ -24,7 +24,11 @@ class ProfileController extends Controller
       $user = Auth::user();
       $posts = $user->posts;
       $posts = $posts->sortByDesc('id');
-      return view('dashboard.profile.user_profile', compact('user', 'posts'));
+
+      $occupation = DB::select("SELECT o.name FROM occupations AS o INNER JOIN users
+      AS u ON o.id = u.occupation_id WHERE u.id = ?", [Auth::user()->id]);
+      $occupation = $occupation[0]->name;
+      return view('dashboard.profile.user_profile', compact('user', 'posts', 'occupation'));
     }
 
     public function edit_profile()
@@ -40,10 +44,9 @@ class ProfileController extends Controller
       $user->name = $request->name;
       $user->birthdate = $request->birthdate;
       $user->about = $request->about;
+      $user->occupation_id = $request->occupation;
       $user->save();
-      $occupation_id = $request->occupation;
-      $user_id = $user->id;
-      DB::update('UPDATE occupations_users SET occupation_id = ? WHERE user_id = ?', [$occupation_id, $user_id]);
+
       return redirect()->back()->with('success', 'Successfully updated your profile information.');
     }
 }

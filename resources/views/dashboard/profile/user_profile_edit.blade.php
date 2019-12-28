@@ -62,7 +62,7 @@
               <div class="col-md-12">
                 <select class="form-control form-control-sm" name="occupation">
                   @foreach($occupations as $occupation)
-                    @if($occupation->id == $user->occupations[0]->id)
+                    @if($occupation->id == $user->occupation_id)
                       <option value="{{ $occupation->id }}" selected>{{ $occupation->name }}</option>
                     @else
                       <option value="{{ $occupation->id }}">{{ $occupation->name }}</option>

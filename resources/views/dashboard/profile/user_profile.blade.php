@@ -19,7 +19,7 @@
           <img src="storage/{{ $user->profile_image_filename }}" id="profile-img" class="mx-auto d-block img-thumbnail">
         @endif
         <h1 id="profile-name" class="mt-4">{{ $user->name }}</h1>
-        <h4 id="profile-occupation">{{ $user->occupations[0]->name }}</h4>
+        <h4 id="profile-occupation">{{ $occupation }}</h4>
         <p><b>DOB:</b> {{ $user->birthdate }}</p>
 
 
@@ -121,7 +121,7 @@
             <div class="row">
               <div class="col-md-6">
                 <h3>{{ $user->name }}</h3>
-                <h5>{{ $user->occupations[0]->name }}</h5>
+                <h5>{{ $user->occupation->name }}</h5>
               </div>
               <div class="col-md-6">
                 <h5><b>Created at:</b> {{ $post->created_at }}</h5>
