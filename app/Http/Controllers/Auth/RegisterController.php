@@ -58,7 +58,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'occupation' => 'required',
+            'occupation_id' => 'required',
             'birthdate' => 'required|date',
             'password' => 'required|string|min:6|confirmed',
         ]);
@@ -78,11 +78,11 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'birthdate' => $data['birthdate'],
             'password' => bcrypt($data['password']),
+            'occupation_id' => $data['occupation_id'],
         ]);
 
-        $occupation_id = $data['occupation'];
-        $user_id = $user->id;
-        DB::insert('INSERT INTO occupations_users(occupation_id, user_id) VALUES(?, ?)', [$occupation_id, $user_id]);
+        DB::update("UPDATE users SET occupation_id = ? WHERE id = ?", [$data['occupation_id'], $user->id]);
+
         return $user;
     }
 }

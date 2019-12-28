@@ -12,6 +12,6 @@ class Occupation extends Model
 
     public function users()
     {
-      return $this->belongsToMany('App\User', 'occupations_users');
+      return $this->belongsTo('App\User');
     }
 }

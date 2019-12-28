@@ -43,7 +43,7 @@
                             <label for="occupation" class="col-md-4 control-label">Occupation</label>
 
                             <div class="col-md-6">
-                                <select class="form-control form-control-sm" name="occupation">
+                                <select class="form-control form-control-sm" name="occupation_id">
                                   @foreach($occupations as $occupation)
                                     <option value="{{ $occupation->id }}">{{ $occupation->name }}</option>
                                   @endforeach

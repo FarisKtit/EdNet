@@ -28,7 +28,7 @@ class User extends Authenticatable
     ];
 
     public function occupations() {
-      return $this->belongsToMany('App\Occupation', 'occupations_users');
+      return $this->belongsTo('App\Occupation');
     }
 
     public function posts() {

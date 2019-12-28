@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateOccupationsUsersTable extends Migration
+class AddOccupationIdForeignKeyToUsers extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,9 @@ class CreateOccupationsUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('occupations_users', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('occupation_id')->unsigned()->index();
-            $table->integer('user_id')->unsigned()->index();
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->integer('occupation_id')->unsigned()->change();
             $table->foreign('occupation_id')->references('id')->on('occupations');
-            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
@@ -30,6 +26,8 @@ class CreateOccupationsUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('occupations_users');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropForeign('occupation_id');
+        });
     }
 }
