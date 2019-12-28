@@ -6,3 +6,13 @@
 #search_results_wrapper h4 {
   margin-top: 5px;
 }
+
+.form-relationship-btn:hover {
+  cursor: pointer;
+  color: blue;
+}
+
+.view-profile-btn:hover {
+  cursor: pointer;
+  color: blue;
+}

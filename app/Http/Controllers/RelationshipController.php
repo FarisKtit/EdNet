@@ -40,7 +40,7 @@ class RelationshipController extends Controller
      {
         try {
           $username = $request->name;
-          $users = DB::select("SELECT o.name AS 'occupation', u.name, ru.accepted, u.profile_image_thumbnail_filename FROM users AS u
+          $users = DB::select("SELECT o.name AS 'occupation', u.name, u.id, ru.accepted, u.profile_image_thumbnail_filename FROM users AS u
           INNER JOIN occupations AS o ON o.id = u.occupation_id
           LEFT JOIN relationships_users AS ru ON u.id = ru.requester_id OR u.id = ru.responder_id
           WHERE u.name LIKE '{$username}%'", [$username]);
