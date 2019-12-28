@@ -24,13 +24,13 @@
 
           <div class="col-md-4">
             @if(is_null($user->accepted))
-              <a href="#"><p>Form relationship</p></a>
+              <p class="form-relationship-btn" data-user="{{ $user->id }}">Form relationship</p>
             @elseif($user->accepted == 0)
               <p>Awaiting decision</p>
             @else
               <p>Relationship formed</p>
             @endif
-            <a href="#"><p>View profile</p></a>
+            <p class="view-profile-btn" data-profile="{{ $user->id }}">View profile</p>
           </div>
 
         </div>
