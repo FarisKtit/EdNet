@@ -16,3 +16,21 @@
   cursor: pointer;
   color: blue;
 }
+
+.form-relationship-option {
+  display:none;
+}
+
+.form-relationship-hr {
+  display: none;
+}
+
+.form-relationship-final-btn:hover {
+  cursor: pointer;
+  color: blue;
+}
+
+.form-relationship-cancel-btn:hover {
+  cursor: pointer;
+  color: blue;
+}

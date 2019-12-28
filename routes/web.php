@@ -26,3 +26,4 @@ Route::post('/search_users', 'RelationshipController@search')->name('search_user
 Route::post('/update_profile', 'ProfileController@update_profile')->name('update_profile');
 Route::post('/upload_profile_image', 'ProfileImageController@store')->name('upload_profile_image');
 Route::post('/create_post', 'PostController@store')->name('create_post');
+Route::post('/form_relationship', 'RelationshipController@store')->name('form_relationship');

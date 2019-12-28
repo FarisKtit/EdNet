@@ -27,6 +27,7 @@ class RelationshipController extends Controller
         OR u.id = ru.responder_id INNER JOIN occupations AS os ON u.occupation_id = os.id
         WHERE u.id = ? AND ru.accepted = 1", [Auth::user()->id]);
 
+
         return view('dashboard.relationships.user_relationships', compact('relationships'));
     }
 
@@ -40,13 +41,17 @@ class RelationshipController extends Controller
      {
         try {
           $username = $request->name;
+          $user_id = Auth::user()->id;
+          
           $users = DB::select("SELECT o.name AS 'occupation', u.name, u.id, ru.accepted, u.profile_image_thumbnail_filename FROM users AS u
           INNER JOIN occupations AS o ON o.id = u.occupation_id
-          LEFT JOIN relationships_users AS ru ON u.id = ru.requester_id OR u.id = ru.responder_id
-          WHERE u.name LIKE '{$username}%'", [$username]);
+          LEFT JOIN relationships_users AS ru ON (u.id = ru.requester_id OR u.id = ru.responder_id) AND (ru.responder_id = ? OR ru.requester_id = ?)
+          WHERE u.name LIKE '{$username}%'", [$user_id, $user_id, $username]);
 
-          $html = view('snippets.dashboard.relationships.user_search_result', compact('users'))->render();
-          return response()->json(array('status' => 'success', 'html' => $html));
+          $relationship_options = Relationship::all();
+
+          $html = view('snippets.dashboard.relationships.user_search_result', compact('users', 'relationship_options'))->render();
+          return response()->json(array('status' => 'success', 'html' => $html, 'users' => $users));
         } catch(Exception $e) {
           return response()->json(array('status' => 'error'));
         }
@@ -71,7 +76,16 @@ class RelationshipController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+          $requester_id = Auth::user()->id;
+          $responder_id = $request->responder_id;
+          $relationship_id = $request->relationship_id;
+
+          DB::insert('INSERT INTO relationships_users(requester_id, responder_id, relationship_id, accepted, created_at, updated_at) VALUES(?, ?, ?, ?, now(), now())', [$requester_id, $responder_id, $relationship_id, 0]);
+          return response()->json(array('status'=>'success'));
+        } catch(Exception $e) {
+          return response()->json(array('status'=>'error'));
+        }
     }
 
     /**
