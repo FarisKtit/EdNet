@@ -1,0 +1,38 @@
+#profile-img-upload-wrapper {
+  text-align: center;
+}
+#profile-img-upload-btn {
+  margin-top: 15px;
+  color: white;
+}
+#profile-img-wrapper {
+  text-align: center;
+}
+#profile-name {
+  margin-top: 15px;
+  text-align: center;
+}
+#profile-occupation {
+  text-align: center;
+  margin-top: 0px;
+}
+.profile-btns-section {
+  text-align: center;
+  margin-bottom: 10px;
+}
+.profile-about-section {
+  text-align: center;
+  padding-top: 10px;
+}
+.user-post {
+  background-color: #FDFCFC;
+  border-radius: 5px;
+  padding-bottom: 10px;
+}
+.user-post hr {
+  border-color: #E3E1E1;
+}
+
+.user-post .like-btn, .comment-btn, .delete-post-btn {
+  width: 100%;
+}

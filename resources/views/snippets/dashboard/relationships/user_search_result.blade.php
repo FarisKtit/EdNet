@@ -33,7 +33,7 @@
                     @else
                       <u><p>Relationship formed</p></u>
                     @endif
-                    <u><p class="view-profile-btn" data-profile="{{ $user->id }}">View profile</p></u>
+                    <a href="{{ route('view_user_profile', $user->id) }}"><u><p class="view-profile-btn" data-profile="{{ $user->id }}">View profile</p></u></a>
                   </div>
 
                 </div>
