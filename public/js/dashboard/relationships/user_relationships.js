@@ -54,9 +54,6 @@ $(document).ready(function() {
     data.responder_id = responder_id;
     data.relationship_id = relationship_id;
 
-    // setTimeout(function() {
-    //
-    // }, 2000);
 
     $.ajax({
       type: "POST",
@@ -77,6 +74,51 @@ $(document).ready(function() {
       $('#user-result-wrapper-' + responder_id).css('display', 'none');
       $('#user-result-wrapper-' + responder_id).html("<h5 style='color:red;'>Error, please try again later</h5><hr>");
       $('#user-result-wrapper-' + responder_id).fadeIn(500);
+    });
+  });
+
+
+  //==Accept a relationship request
+  $(document).on('click', '.accept-request-btn', function() {
+    let $relationship = $(this).data('user');
+    let data = {};
+    data.relationship_id = $relationship;
+    $('#requester-info-wrapper-' + $relationship).html("<div class='col-md-12'><h5>Please wait...</h5></div>");
+    $.ajax({
+      type: "POST",
+      url: "accept_relationship",
+      data: data
+    }).done(function(data) {
+      if(data.status == 'success') {
+        $('#requester-info-wrapper-' + $relationship).html("<div class='col-md-12'><h5 style='color: blue;'>Relationship successfully formed</h5></div>");
+      } else {
+        $('#requester-info-wrapper-' + $relationship).html("<div class='col-md-12'><h5 style='color: red;'>Error, try again later</h5></div>");
+      }
+    }).fail(function(jqXHR, status, err) {
+      $('#requester-info-wrapper-' + $relationship).html("<div class='col-md-12'><h5 style='color: red;'>Error, try again later</h5></div>");
+    });
+
+  });
+
+
+  //==Reject a relationship request
+  $(document).on('click', '.reject-request-btn', function() {
+    let $relationship = $(this).data('user');
+    let data = {};
+    data.relationship_id = $relationship;
+    $('#requester-info-wrapper-' + $relationship).html("<div class='col-md-12'><h5>Please wait...</h5></div>");
+    $.ajax({
+      type: "POST",
+      url: "reject_relationship",
+      data: data
+    }).done(function(data) {
+      if(data.status == 'success') {
+        $('#requester-info-wrapper-' + $relationship).html("<div class='col-md-12'><h5 style='color: blue;'>Relationship successfully rejected</h5></div>");
+      } else {
+        $('#requester-info-wrapper-' + $relationship).html("<div class='col-md-12'><h5 style='color: red;'>Error, try again later</h5></div>");
+      }
+    }).fail(function(jqXHR, status, err) {
+      $('#requester-info-wrapper-' + $relationship).html("<div class='col-md-12'><h5 style='color: red;'>Error, try again later</h5></div>");
     });
   });
 });
