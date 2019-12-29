@@ -22,17 +22,24 @@
       </div>
     </div>
     <div class="col-md-4">
-      <u><h4>Relationship requests</h4></u>
-      <hr>
+      <div class="row">
+        <div class="col-md-12">
+          <u><h4>Pending relationship requests</h4></u>
+          <hr>
+        </div>
+      </div>
+      @include('snippets.dashboard.relationships.user_relationship_requests')
     </div>
     <div class="col-md-4">
       <u><h4>Relationships</h4></u>
       <hr>
-      @if(count($relationships) == 0)
+      @if(count($relationships) == 0 or (count($relationships) == 1 and $relationships[0]->id == auth()->user()->id))
         <h5>You have no relationships! start searching!</h5>
       @else
         @foreach($relationships as $r)
-          <p>{{ $r }}</p>
+          @if($r->friend_id != auth()->user()->id)
+            <p>{{ $r->name }}</p>
+          @endif
         @endforeach
       @endif
     </div>

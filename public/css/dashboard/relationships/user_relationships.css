@@ -34,3 +34,17 @@
   cursor: pointer;
   color: blue;
 }
+
+.accept-request-btn {
+  cursor: pointer;
+  color: blue;
+}
+
+.reject-request-btn {
+  cursor: pointer;
+  color: red;
+}
+
+.requester-info-wrapper {
+  text-align: center;
+}

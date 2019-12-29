@@ -22,13 +22,18 @@ class RelationshipController extends Controller
      */
     public function index()
     {
-        $relationships = DB::select("SELECT u.id, u.name, u.profile_image_filename, u.profile_image_thumbnail_filename, os.name FROM users AS u
+        $relationships = DB::select("SELECT u.id, f.id AS 'friend_id', f.name, f.profile_image_filename, f.profile_image_thumbnail_filename, os.name AS 'occupation' FROM users AS u
         INNER JOIN relationships_users AS ru ON u.id = ru.requester_id
-        OR u.id = ru.responder_id INNER JOIN occupations AS os ON u.occupation_id = os.id
+        OR u.id = ru.responder_id INNER JOIN users AS f ON ru.requester_id = f.id OR ru.responder_id = f.id
+        INNER JOIN occupations AS os ON f.occupation_id = os.id
         WHERE u.id = ? AND ru.accepted = 1", [Auth::user()->id]);
 
+        $requests = DB::select("SELECT ru.id, rqs.name, rqs.profile_image_thumbnail_filename,
+        os.name AS 'occupation', ru.requester_id, ru.responder_id, ru.relationship_id, r.requester_question FROM users AS u INNER JOIN relationships_users AS ru
+        ON u.id = ru.responder_id INNER JOIN users AS rqs ON ru.requester_id = rqs.id INNER JOIN occupations AS os ON rqs.occupation_id = os.id
+        INNER JOIN relationships AS r on ru.relationship_id = r.id WHERE u.id = ? AND ru.accepted = 0", [Auth::user()->id]);
 
-        return view('dashboard.relationships.user_relationships', compact('relationships'));
+        return view('dashboard.relationships.user_relationships', compact('relationships', 'requests'));
     }
 
     /**
@@ -42,7 +47,7 @@ class RelationshipController extends Controller
         try {
           $username = $request->name;
           $user_id = Auth::user()->id;
-          
+
           $users = DB::select("SELECT o.name AS 'occupation', u.name, u.id, ru.accepted, u.profile_image_thumbnail_filename FROM users AS u
           INNER JOIN occupations AS o ON o.id = u.occupation_id
           LEFT JOIN relationships_users AS ru ON (u.id = ru.requester_id OR u.id = ru.responder_id) AND (ru.responder_id = ? OR ru.requester_id = ?)
@@ -89,26 +94,39 @@ class RelationshipController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Form relationship.
      *
-     * @param  \App\Relationship  $relationship
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function show(Relationship $relationship)
+    public function accept_request(Request $request)
     {
-        //
+      try {
+        $relationship_id = $request->relationship_id;
+        DB::update("UPDATE relationships_users SET accepted = 1 WHERE id = ?", [$relationship_id]);
+        return response()->json(array('status' => 'success'));
+      } catch(Exception $e) {
+        return response()->json(array('status' => 'error'));
+      }
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Destroy relationship.
      *
-     * @param  \App\Relationship  $relationship
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function edit(Relationship $relationship)
+    public function reject_request(Request $request)
     {
-        //
+      try {
+        $relationship_id = $request->relationship_id;
+        DB::delete("DELETE FROM relationships_users WHERE id = ?", [$relationship_id]);
+        return response()->json(array('status' => 'success'));
+      } catch(Exception $e) {
+        return response()->json(array('status' => 'error'));
+      }
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -122,14 +140,4 @@ class RelationshipController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Relationship  $relationship
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Relationship $relationship)
-    {
-        //
-    }
 }
