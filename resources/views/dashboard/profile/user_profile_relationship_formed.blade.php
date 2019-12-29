@@ -65,60 +65,73 @@
 
 </div>
 
+<div class="row">
+  <div class="col-md-3"></div>
+  <div class="col-md-6">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="alert alert-success alert-dismissible" id="post-creation-success-alert">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              Post successfully created!
+            </div>
+
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="alert alert-danger alert-dismissible" id="post-creation-error-alert">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              Error, post could not be created, please try again later.
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <form method="post" action="{{ route('create_post') }}">
+          {{ csrf_field() }}
+          <input type="hidden" name="visited_id" id="visited_id" value="{{ $visited_id }}">
+          <input type="hidden" name="visitor_id" id="visitor_id" value="{{ $visitor_id }}">
+
+          <div class="form-group">
+            <textarea class="form-control" id="post" placeholder="Create a post" name="post" rows="3"></textarea>
+          </div>
+          <button type="submit" class="btn btn-default user-post-btn" id="user-post-btn">Create Post</button>
+        </form>
+        <hr>
+      </div>
+    </div>
+
+  </div>
+  <div class="col-md-3"></div>
+
+</div>
+
 
 <div class="row">
   <div class="col-md-3">
 
   </div>
-  <div class="col-md-6">
-    @if(count($posts) == 0)
-      <div class="row">
-        <div class="col-md-12">
-          <h5>User has no posts!</h5>
-        </div>
-
-      </div>
-    @else
-      @foreach($posts as $post)
-        <div class="row user-posts">
-          <div class="col-md-12 user-post">
-            <div class="row">
-              <div class="col-md-6">
-                <h3>{{ $user->name }}</h3>
-                <h5>{{ $user->occupation }}</h5>
-              </div>
-              <div class="col-md-6">
-                <h5><b>Created at:</b> {{ $post->created_at }}</h5>
-              </div>
-            </div>
-            <hr>
-            <div class="row">
-              <div class="col-md-12">
-                <p class="">{{ $post->content }}</p>
-              </div>
-            </div>
-            <hr>
-            <div class="row">
-              <div class="col-md-4">
-                <button type="button" class="btn btn-sm btn-default like-btn" name="button">Like</button>
-              </div>
-              <div class="col-md-4">
-              </div>
-              <div class="col-md-4">
-                <button type="button" class="btn btn-sm btn-default comment-btn" name="button">Comment</button>
-              </div>
-
-            </div>
-          </div>
-        </div>
-        <hr>
-      @endforeach
-    @endif
+  <div class="col-md-6" id="user-profile-posts">
+    @include('snippets.dashboard.profile.user_profile_posts')
   </div>
   <div class="col-md-3">
 
   </div>
 </div>
 
+<br><br>
+
 
 @endsection
+@section('scripts')
+  <script src="{{ asset('js/dashboard/profile/user_profile.js') }}"></script>
+@stop

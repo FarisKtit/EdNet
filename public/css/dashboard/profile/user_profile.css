@@ -36,3 +36,9 @@
 .user-post .like-btn, .comment-btn, .delete-post-btn {
   width: 100%;
 }
+#post-creation-success-alert {
+  display: none;
+}
+#post-creation-error-alert {
+  display: none;
+}
