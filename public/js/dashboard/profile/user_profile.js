@@ -5,6 +5,7 @@ $(document).ready(function() {
     }
   });
 
+  //===Create post on users profile
   $('#user-post-btn').on('click', function(e) {
     e.preventDefault();
     let post = $('#post').val();
@@ -27,8 +28,9 @@ $(document).ready(function() {
       console.log(data);
       if(data.status == 'success') {
         $('#post-creation-success-alert').css('display','block');
-        $('#user-profile-posts').html(data.html);
         $('#post').val('');
+        get_user_posts(0);
+
       } else {
         $('#post-creation-error-alert').css('display','block');
       }
@@ -41,4 +43,36 @@ $(document).ready(function() {
 
     });
   });
+
+  // //===Paginate
+  $(document).on('click', '#pagination a', function(e) {
+    e.preventDefault();
+    let page = $(this).attr('href').split('page=')[1];
+    get_user_posts(page);
+  });
 });
+
+//function is used to get the users post and upate pagination links
+function get_user_posts(page) {
+  let current_page = 1;
+  if(page != 0) {
+    current_page = page;
+  }
+  let data = {};
+  data.visited_id = $('#visited_id').val();
+  $.ajax({
+    type: "GET",
+    url: '/get_user_posts?page=' + page + '',
+    data: data
+  }).done(function(data) {
+    console.log(data);
+    if(data.status == 'success') {
+      $('#user-profile-posts').html(data.html);
+    }
+
+  }).fail(function(jqXHR, status, err) {
+    console.log(err);
+
+  });
+
+};

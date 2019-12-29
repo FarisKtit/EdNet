@@ -10,11 +10,20 @@
     <div class="row user-posts">
       <div class="col-md-12 user-post">
         <div class="row">
-          <div class="col-md-6">
-            <h3>{{ $post->user_name }}</h3>
-            <h5>{{ $post->user_occupation }}</h5>
+          <div class="col-md-8">
+            <div class="row">
+              <div class="col-md-3 user-post-img">
+                <br>
+                <img src="/storage/{{ $post->profile_image_thumbnail_filename }}" class="img-thumbnail" alt="">
+
+              </div>
+              <div class="col-md-9">
+                <h3>{{ $post->user_name }}</h3>
+                <h5>{{ $post->user_occupation }}</h5>
+              </div>
+            </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-4">
             <h5><b>Created at:</b> {{ $post->created_at }}</h5>
           </div>
         </div>
@@ -43,4 +52,7 @@
     </div>
     <hr>
   @endforeach
+  <div id="pagination">
+    {{ $posts->links() }}
+  </div>
 @endif

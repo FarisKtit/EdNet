@@ -42,3 +42,7 @@
 #post-creation-error-alert {
   display: none;
 }
+
+.user-post-img {
+  text-align: center;
+}

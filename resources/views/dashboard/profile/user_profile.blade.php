@@ -117,7 +117,7 @@
     </div>
     <div class="row">
       <div class="col-md-12">
-        <form method="post" action="{{ route('create_post') }}">
+        <form method="post" id="create-post-form" action="{{ route('create_post') }}">
           {{ csrf_field() }}
           <input type="hidden" name="visited_id" id="visited_id" value="{{ auth()->user()->id }}">
           <input type="hidden" name="visitor_id" id="visitor_id" value="{{ auth()->user()->id }}">
