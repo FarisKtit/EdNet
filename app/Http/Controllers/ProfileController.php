@@ -24,13 +24,19 @@ class ProfileController extends Controller
     {
       $user = Auth::user();
       $user_id = $user->id;
-      $posts = $user->posts;
-      $posts = $posts->sortByDesc('id');
+      $visited_id = $user_id;
+      // $posts = $user->posts;
+      // $posts = $posts->sortByDesc('id');
 
       $user = DB::select("SELECT u.name, u.birthdate, u.about, u.profile_image_filename, o.name AS 'occupation' FROM users AS u
       INNER JOIN occupations AS o ON u.occupation_id = o.id WHERE u.id = ?", [$user_id]);
       $user = $user[0];
-      return view('dashboard.profile.user_profile', compact('user', 'posts'));
+
+      $posts = DB::select("SELECT u.name AS 'user_name', u.birthdate, p.created_at, o.name AS 'user_occupation', p.content, p.user_wall_id FROM posts AS p
+      INNER JOIN users AS u ON p.poster_id = u.id INNER JOIN occupations AS o ON u.occupation_id = o.id
+      WHERE p.user_wall_id = ? ORDER BY p.id DESC", [$user_id]);
+
+      return view('dashboard.profile.user_profile', compact('user', 'posts', 'visited_id'));
     }
 
     public function edit_profile()
@@ -63,8 +69,10 @@ class ProfileController extends Controller
         $visitor_id = Auth::user()->id;
 
         $user = User::findOrFail($id);
-        $posts = $user->posts;
-        $posts = $posts->sortByDesc('id');
+
+        $posts = DB::select("SELECT u.name AS 'user_name', u.birthdate, p.created_at, o.name AS 'user_occupation', p.content FROM posts AS p
+        INNER JOIN users AS u ON p.poster_id = u.id INNER JOIN occupations AS o ON u.occupation_id = o.id
+        WHERE p.user_wall_id = ? ORDER BY p.id DESC", [$visited_id]);;
 
         $res = DB::select("SELECT id FROM relationships_users WHERE ((requester_id = ? AND responder_id = ?) OR (requester_id = ? AND responder_id = ?)) AND accepted = 1",
         [$visited_id, $visitor_id, $visitor_id, $visited_id]);
@@ -79,7 +87,7 @@ class ProfileController extends Controller
 
 
 
-        return view('dashboard.profile.user_profile_relationship_formed', compact('user', 'posts'));
+        return view('dashboard.profile.user_profile_relationship_formed', compact('user', 'posts', 'visitor_id', 'visited_id'));
 
     }
 }
