@@ -23,6 +23,7 @@ Route::get('/edit_profile', 'ProfileController@edit_profile')->name('edit_profil
 Route::get('/edit_profile_image', 'ProfileImageController@index')->name('edit_profile_image');
 Route::get('/relationships', 'RelationshipController@index')->name('relationships');
 Route::get('/user_profile/{id}', 'ProfileController@view_user_profile')->name('view_user_profile');
+Route::get('/get_user_posts', 'PostController@get_user_posts')->name('get_user_posts');
 
 Route::post('/search_users', 'RelationshipController@search')->name('search_user');
 Route::post('/update_profile', 'ProfileController@update_profile')->name('update_profile');

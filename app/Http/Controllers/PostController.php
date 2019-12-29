@@ -31,16 +31,29 @@ class PostController extends Controller
 
          $visited_id = $request->visited_id;
 
+
+
+         return response()->json(array('status'=>'success'));
+       } catch(Exception $e) {
+         return response()->json(array('status'=>'error'));
+       }
+
+     }
+
+     public function get_user_posts(Request $request)
+     {
+       try {
+         $visited_id = $request->visited_id;
          $user = User::findOrFail($visited_id);
+         $posts = DB::table('posts')->join('users', 'posts.poster_id', '=', 'users.id')->join('occupations', 'users.occupation_id', '=', 'occupations.id')
+         ->select('users.name as user_name', 'users.birthdate', 'posts.created_at', 'occupations.name as user_occupation', 'posts.content', 'users.profile_image_thumbnail_filename')
+         ->where('posts.user_wall_id', '=', $visited_id)
+         ->orderByRaw('posts.id DESC')
+         ->paginate(5);
 
-         $posts = DB::select("SELECT u.name AS 'user_name', u.birthdate, p.created_at, o.name AS 'user_occupation', p.content FROM posts AS p
-         INNER JOIN users AS u ON p.poster_id = u.id INNER JOIN occupations AS o ON u.occupation_id = o.id
-         WHERE p.user_wall_id = ? ORDER BY p.id DESC", [$visited_id]);
+         $html = view('snippets.dashboard.profile.user_profile_posts', compact('posts', 'user', 'visited_id'))->render();
 
-
-         $html = view('snippets.dashboard.profile.user_profile_posts', compact('posts', 'user', 'visited_id', 'visitor_id'))->render();
-
-         return response()->json(array('status'=>'success', 'html' => $html));
+         return response()->json(array('status'=>'success', 'html' => $html, 'visited_id' => $visited_id));
        } catch(Exception $e) {
          return response()->json(array('status'=>'error'));
        }

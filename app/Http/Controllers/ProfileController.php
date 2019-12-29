@@ -32,9 +32,11 @@ class ProfileController extends Controller
       INNER JOIN occupations AS o ON u.occupation_id = o.id WHERE u.id = ?", [$user_id]);
       $user = $user[0];
 
-      $posts = DB::select("SELECT u.name AS 'user_name', u.birthdate, p.created_at, o.name AS 'user_occupation', p.content, p.user_wall_id FROM posts AS p
-      INNER JOIN users AS u ON p.poster_id = u.id INNER JOIN occupations AS o ON u.occupation_id = o.id
-      WHERE p.user_wall_id = ? ORDER BY p.id DESC", [$user_id]);
+      $posts = DB::table('posts')->join('users', 'posts.poster_id', '=', 'users.id')->join('occupations', 'users.occupation_id', '=', 'occupations.id')
+      ->select('users.name as user_name', 'users.birthdate', 'posts.created_at', 'occupations.name as user_occupation', 'posts.content', 'users.profile_image_thumbnail_filename')
+      ->where('posts.user_wall_id', '=', $visited_id)
+      ->orderByRaw('posts.id DESC')
+      ->paginate(5);
 
       return view('dashboard.profile.user_profile', compact('user', 'posts', 'visited_id'));
     }
@@ -70,9 +72,12 @@ class ProfileController extends Controller
 
         $user = User::findOrFail($id);
 
-        $posts = DB::select("SELECT u.name AS 'user_name', u.birthdate, p.created_at, o.name AS 'user_occupation', p.content FROM posts AS p
-        INNER JOIN users AS u ON p.poster_id = u.id INNER JOIN occupations AS o ON u.occupation_id = o.id
-        WHERE p.user_wall_id = ? ORDER BY p.id DESC", [$visited_id]);;
+        $posts = DB::table('posts')->join('users', 'posts.poster_id', '=', 'users.id')->join('occupations', 'users.occupation_id', '=', 'occupations.id')
+        ->select('users.name as user_name', 'users.birthdate', 'posts.created_at', 'occupations.name as user_occupation', 'posts.content', 'users.profile_image_thumbnail_filename')
+        ->where('posts.user_wall_id', '=', $visited_id)
+        ->orderByRaw('posts.id DESC')
+        ->paginate(5);
+
 
         $res = DB::select("SELECT id FROM relationships_users WHERE ((requester_id = ? AND responder_id = ?) OR (requester_id = ? AND responder_id = ?)) AND accepted = 1",
         [$visited_id, $visitor_id, $visitor_id, $visited_id]);
