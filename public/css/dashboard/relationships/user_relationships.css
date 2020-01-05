@@ -48,3 +48,74 @@
 .requester-info-wrapper {
   text-align: center;
 }
+
+#load_relationships {
+  width: 100%;
+  padding-top: 20px;
+  text-align: center;
+}
+
+#show_relationships {
+  width: 100%;
+  display: none;
+}
+
+.relationship_member_info h4 {
+  margin-top: 0px;
+}
+
+.delete_relationship_btn {
+  color: red;
+}
+
+.delete_relationship_btn:hover {
+  cursor: pointer;
+}
+
+#delete_relationship_confirm_btn {
+  color: blue;
+}
+
+#delete_relationship_cancel_btn {
+  color: red;
+}
+
+#delete_relationship_confirm_btn:hover , #delete_relationship_cancel_btn:hover, #delete_relationship_complete_screen_close_btn:hover {
+  cursor: pointer;
+}
+
+#delete_relationship_complete_screen_close_btn {
+  color: blue;
+}
+
+/* Delete user relationship modal */
+.delete_relationship_modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  text-align: center;
+}
+
+.delete_relationship_modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+.delete_relationship_gif_screen {
+  display: none;
+}
+
+.delete_relationship_complete_screen {
+  display: none;
+
+}

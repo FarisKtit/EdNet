@@ -22,18 +22,13 @@ class RelationshipController extends Controller
      */
     public function index()
     {
-        $relationships = DB::select("SELECT u.id, f.id AS 'friend_id', f.name, f.profile_image_filename, f.profile_image_thumbnail_filename, os.name AS 'occupation' FROM users AS u
-        INNER JOIN relationships_users AS ru ON u.id = ru.requester_id
-        OR u.id = ru.responder_id INNER JOIN users AS f ON ru.requester_id = f.id OR ru.responder_id = f.id
-        INNER JOIN occupations AS os ON f.occupation_id = os.id
-        WHERE u.id = ? AND ru.accepted = 1", [Auth::user()->id]);
 
         $requests = DB::select("SELECT ru.id, rqs.name, rqs.profile_image_thumbnail_filename,
         os.name AS 'occupation', ru.requester_id, ru.responder_id, ru.relationship_id, r.requester_question FROM users AS u INNER JOIN relationships_users AS ru
         ON u.id = ru.responder_id INNER JOIN users AS rqs ON ru.requester_id = rqs.id INNER JOIN occupations AS os ON rqs.occupation_id = os.id
         INNER JOIN relationships AS r on ru.relationship_id = r.id WHERE u.id = ? AND ru.accepted = 0", [Auth::user()->id]);
 
-        return view('dashboard.relationships.user_relationships', compact('relationships', 'requests'));
+        return view('dashboard.relationships.user_relationships', compact('requests'));
     }
 
     /**
@@ -120,15 +115,67 @@ class RelationshipController extends Controller
 
 
     /**
-     * Update the specified resource in storage.
+     * Get all relationships for user.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Relationship  $relationship
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Relationship $relationship)
+    public function get_relationships(Request $request)
     {
-        //
+      try {
+        // $relationships = DB::select("SELECT u.id, f.id AS 'friend_id', f.name, f.profile_image_thumbnail_filename, os.name AS 'occupation' FROM users AS u
+        // INNER JOIN relationships_users AS ru ON u.id = ru.requester_id
+        // OR u.id = ru.responder_id INNER JOIN users AS f ON ru.requester_id = f.id OR ru.responder_id = f.id
+        // INNER JOIN occupations AS os ON f.occupation_id = os.id
+        // WHERE u.id = ? AND ru.accepted = 1", [Auth::user()->id]);
+
+        $first_table = DB::table('relationships_users')
+        ->join('users', 'relationships_users.responder_id', '=', 'users.id')
+        ->join('occupations', 'users.occupation_id', '=', 'occupations.id')
+        ->select('users.id as friend_id', 'users.name', 'users.profile_image_thumbnail_filename', 'occupations.name as occupation')
+        ->where([
+          ['relationships_users.requester_id', '=', Auth::user()->id], ['relationships_users.accepted', '=', '1']
+        ]);
+
+        $relationships = DB::table('relationships_users')
+        ->join('users', 'relationships_users.requester_id', '=', 'users.id')
+        ->join('occupations', 'users.occupation_id', '=', 'occupations.id')
+        ->select('users.id as friend_id', 'users.name', 'users.profile_image_thumbnail_filename', 'occupations.name as occupation')
+        ->where([
+          ['relationships_users.responder_id', '=', Auth::user()->id], ['relationships_users.accepted', '=', '1']
+        ])
+        ->unionAll($first_table)
+        ->get();
+
+        $html = view('snippets.dashboard.relationships.user_relationships_list', compact('relationships'))->render();
+
+        return response()->json(array('status' => 'success', 'html' => $html));
+
+      } catch(Exception $exception) {
+        return response()->json(array('status' => 'success'));
+      }
+    }
+
+    /**
+     * Delete relationship.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function delete_relationship(Request $request)
+    {
+      if(is_null($request->user_id_to_delete)) {
+        return response()->json(array('status' => 'error'));
+      }
+      try {
+        $user_id_to_delete = $request->user_id_to_delete;
+        DB::delete("DELETE FROM relationships_users WHERE (requester_id = ? AND responder_id = ?) OR (requester_id = ? AND responder_id = ?)",
+        [$user_id_to_delete, Auth::user()->id, Auth::user()->id, $user_id_to_delete]);
+        return response()->json(array('status' => 'success'));
+
+      } catch(Exception $e) {
+        return response()->json(array('status' => 'error'));
+      }
     }
 
 }

@@ -22,6 +22,7 @@ Route::get('/profile', 'ProfileController@index')->name('profile');
 Route::get('/edit_profile', 'ProfileController@edit_profile')->name('edit_profile');
 Route::get('/edit_profile_image', 'ProfileImageController@index')->name('edit_profile_image');
 Route::get('/relationships', 'RelationshipController@index')->name('relationships');
+Route::get('/get_relationships', 'RelationshipController@get_relationships')->name('get_relationships');
 Route::get('/user_profile/{id}', 'ProfileController@view_user_profile')->name('view_user_profile');
 Route::get('/get_user_posts', 'PostController@get_user_posts')->name('get_user_posts');
 
@@ -33,3 +34,4 @@ Route::post('/create_post', 'PostController@store')->name('create_post');
 Route::post('/form_relationship', 'RelationshipController@store')->name('form_relationship');
 Route::post('/accept_relationship', 'RelationshipController@accept_request')->name('accept_relationship');
 Route::post('/reject_relationship', 'RelationshipController@reject_request')->name('reject_relationship');
+Route::post('/delete_relationship', 'RelationshipController@delete_relationship')->name('delete_relationship');

@@ -3,6 +3,62 @@
     <link href="{{ asset('css/dashboard/relationships/user_relationships.css') }}" rel="stylesheet">
 @stop
 @section('content')
+  <div id="delete_relationship_modal" class="delete_relationship_modal">
+
+    <div class="delete_relationship_modal-content">
+      <div class="row delete_relationship_modal_question_screen">
+        <div class="col-md-12">
+          <div class="row">
+
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+              <h4 id="delete_relationship_modal_question"></h4>
+            </div>
+            <div class="col-md-4"></div>
+
+          </div>
+
+          <div class="row">
+            <div class="col-md-4">
+
+            </div>
+            <div class="col-md-4">
+              <div class="row">
+                <div class="col-md-6">
+                  <u><p id="delete_relationship_confirm_btn">Yes, delete</p></u>
+                </div>
+                <div class="col-md-6">
+                  <u><p id="delete_relationship_cancel_btn">No, cancel</p></u>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+      <div class="row delete_relationship_gif_screen">
+        <img src="img/ajax_loader.gif" id="delete_relationship_gif" class="">
+        <h4>Deleting relationship..</h4>
+      </div>
+      <div class="row delete_relationship_complete_screen">
+        <div class="row">
+          <div class="col-md-12">
+            <h4 id="delete_relationship_complete_screen_msg"></h4>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <u><p id="delete_relationship_complete_screen_close_btn">Close Window</p></u>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
   <div class="row">
     <div class="col-md-4">
       <u><h4>Search for a user</h4></u>
@@ -33,15 +89,16 @@
     <div class="col-md-4">
       <u><h4>Relationships</h4></u>
       <hr>
-      @if(count($relationships) == 0 or (count($relationships) == 1 and $relationships[0]->id == auth()->user()->id))
-        <h5>You have no relationships! start searching!</h5>
-      @else
-        @foreach($relationships as $r)
-          @if($r->friend_id != auth()->user()->id)
-            <p>{{ $r->name }}</p>
-          @endif
-        @endforeach
-      @endif
+      <div id="load_relationships">
+        <img src="img/ajax_loader.gif" id="load_relationships_gif" class="">
+        <h4>Loading relationships..</h4>
+      </div>
+      <div id="show_relationships">
+
+      </div>
+
+
+
     </div>
   </div>
 @endsection
