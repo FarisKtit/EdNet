@@ -60,7 +60,7 @@
 
   </div>
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-3">
       <u><h4>Search for a user</h4></u>
       <hr>
       <form>
@@ -77,16 +77,7 @@
 
       </div>
     </div>
-    <div class="col-md-4">
-      <div class="row">
-        <div class="col-md-12">
-          <u><h4>Pending relationship requests</h4></u>
-          <hr>
-        </div>
-      </div>
-      @include('snippets.dashboard.relationships.user_relationship_requests')
-    </div>
-    <div class="col-md-4">
+    <div class="col-md-6">
       <u><h4>Relationships</h4></u>
       <hr>
       <div id="load_relationships">
@@ -97,8 +88,15 @@
 
       </div>
 
-
-
+    </div>
+    <div class="col-md-3">
+      <div class="row">
+        <div class="col-md-12">
+          <u><h4>Pending relationship requests</h4></u>
+          <hr>
+        </div>
+      </div>
+      @include('snippets.dashboard.relationships.user_relationship_requests')
     </div>
   </div>
 @endsection

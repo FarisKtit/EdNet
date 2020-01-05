@@ -35,3 +35,4 @@ Route::post('/form_relationship', 'RelationshipController@store')->name('form_re
 Route::post('/accept_relationship', 'RelationshipController@accept_request')->name('accept_relationship');
 Route::post('/reject_relationship', 'RelationshipController@reject_request')->name('reject_relationship');
 Route::post('/delete_relationship', 'RelationshipController@delete_relationship')->name('delete_relationship');
+Route::post('/cancel_relationship_request', 'RelationshipController@cancel_relationship_request')->name('cancel_relationship_request');

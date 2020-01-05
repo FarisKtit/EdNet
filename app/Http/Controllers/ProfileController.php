@@ -86,8 +86,14 @@ class ProfileController extends Controller
         INNER JOIN occupations AS o ON u.occupation_id = o.id WHERE u.id = ?", [$visited_id]);
         $user = $user[0];
 
-        if(count($res) == 0) {
-          return view('dashboard.profile.user_profile_relationship_not_formed', compact('user'));
+        $count = count($res);
+
+        if($count == 0) {
+          $res = DB::select("SELECT id FROM relationships_users WHERE ((requester_id = ? AND responder_id = ?) OR (requester_id = ? AND responder_id = ?))",
+          [$visited_id, $visitor_id, $visitor_id, $visited_id]);
+
+          $count = count($res);
+          return view('dashboard.profile.user_profile_relationship_not_formed', compact('user', 'count', 'visited_id'));
         }
 
 
