@@ -70,12 +70,19 @@ class RelationshipController extends Controller
         try {
           $requester_id = Auth::user()->id;
           $responder_id = $request->responder_id;
-          $relationship_id = $request->relationship_id;
+          $relationship_id = 5;
 
           DB::insert('INSERT INTO relationships_users(requester_id, responder_id, relationship_id, accepted, created_at, updated_at) VALUES(?, ?, ?, ?, now(), now())', [$requester_id, $responder_id, $relationship_id, 0]);
-          return response()->json(array('status'=>'success'));
+          if($request->ajax()) {
+            return response()->json(array('status'=>'success'));
+          }
+          return redirect()->back()->with('success', 'Successfully sent relationship request.');
+
         } catch(Exception $e) {
-          return response()->json(array('status'=>'error'));
+          if($request->ajax()) {
+            return response()->json(array('status'=>'error'));
+          }
+          return redirect()->back()->with('error', 'Error sending relationship request, please try again later.');
         }
     }
 
@@ -177,5 +184,37 @@ class RelationshipController extends Controller
         return response()->json(array('status' => 'error'));
       }
     }
+
+
+    /**
+     * Cancel relationship request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+     public function cancel_relationship_request(Request $request)
+     {
+       try {
+         $requester_id = Auth::user()->id;
+         $responder_id = $request->responder_id;
+
+         $num_of_rows_affected = DB::delete("DELETE FROM relationships_users WHERE requester_id = ? AND responder_id = ? AND accepted = 0", [$requester_id, $responder_id]);
+         if($num_of_rows_affected > 0) {
+           if($request->ajax()) {
+             return response()->json(array('status' => 'success'));
+           }
+           return redirect()->back()->with('success', 'Relationship request successfully cancelled.');
+         }
+         if($request->ajax()) {
+           return response()->json(array('status' => 'error'));
+         }
+         return redirect()->back()->with('error', 'Relationship request could not be cancelled, please try again later.');
+       } catch(Exception $e) {
+         if($request->ajax()) {
+           return response()->json(array('status' => 'error'));
+         }
+         return redirect()->back()->with('error', 'Relationship request could not be cancelled, please try again later.');
+       }
+     }
 
 }
