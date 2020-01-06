@@ -27,7 +27,7 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function occupations() {
+    public function occupation() {
       return $this->belongsTo('App\Occupation');
     }
 

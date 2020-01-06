@@ -43,12 +43,10 @@
             @endif
           </div>
           <div class="col-md-4">
-            @if(auth()->user()->id == $visited_id)
-              <button type="button" class="btn btn-sm btn-danger delete-post-btn" name="button">Delete</button>
-            @endif
+            <button type="button" class="btn btn-sm btn-default add-comment-btn" data-post="{{ $post->id }}" id="create-comment-btn-{{ $post->id }}" name="button">Add Comment</button>
           </div>
           <div class="col-md-4">
-            <button type="button" class="btn btn-sm btn-default comment-btn" name="button">Comment</button>
+            <button type="button" class="btn btn-sm btn-default comment-btn" data-post="{{ $post->id }}" id="comment-btn-{{ $post->id }}" name="button">Show Comments</button>
           </div>
         </div>
 
@@ -64,6 +62,8 @@
           <div class="col-md-4">
           </div>
         </div>
+
+
 
       </div>
     </div>
