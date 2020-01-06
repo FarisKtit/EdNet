@@ -26,6 +26,8 @@ Route::get('/get_relationships', 'RelationshipController@get_relationships')->na
 Route::get('/user_profile/{id}', 'ProfileController@view_user_profile')->name('view_user_profile');
 Route::get('/get_user_posts', 'PostController@get_user_posts')->name('get_user_posts');
 
+Route::get('/get_all_comments_for_post', 'PostCommentController@get_all_comments_for_post')->name('get_all_comments_for_post');
+
 Route::post('/search_users', 'RelationshipController@search')->name('search_user');
 Route::post('/update_profile', 'ProfileController@update_profile')->name('update_profile');
 Route::post('/upload_profile_image', 'ProfileImageController@store')->name('upload_profile_image');
@@ -38,3 +40,5 @@ Route::post('/delete_relationship', 'RelationshipController@delete_relationship'
 Route::post('/cancel_relationship_request', 'RelationshipController@cancel_relationship_request')->name('cancel_relationship_request');
 Route::post('/add_like_to_post', 'LikeController@add_like_to_post')->name('add_like_to_post');
 Route::post('/remove_like_from_post', 'LikeController@remove_like_from_post')->name('remove_like_from_post');
+
+Route::post('add_comment_to_post', 'PostCommentController@add_comment_to_post')->name('add_comment_to_post');
