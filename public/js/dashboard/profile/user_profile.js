@@ -44,15 +44,65 @@ $(document).ready(function() {
     });
   });
 
-  // //===Paginate
+  //=====Paginate
   $(document).on('click', '#pagination a', function(e) {
     e.preventDefault();
     let page = $(this).attr('href').split('page=')[1];
     get_user_posts(page);
   });
+
+  //=====Like a post
+  $(document).on('click', '.like-btn', function() {
+    let btn = $(this);
+    let post_id = btn.data('post');
+    btn.attr('disabled', 'disabled');
+    let data = {};
+    data.post_id = post_id;
+
+    $.ajax({
+      type: "POST",
+      url: "/add_like_to_post",
+      data: data
+    }).done(function(data) {
+      console.log(data);
+      if(data.status == 'success') {
+        $('#like-btn-' + post_id + '-wrapper').html('<button type="button" style="width: 100%;" class="btn btn-sm btn-default un-like-btn" id="un-like-btn-'+ post_id +'" data-post="' + post_id + '" name="button">Unlike</button>');
+        $("#like-count-" + post_id).html(data.count + " Likes");
+      } else {
+        btn.removeAttr('disabled');
+      }
+    }).fail(function(jqXHR, status, err) {
+      btn.removeAttr('disabled');
+    });
+  });
+
+  //=====Unlike a post
+  $(document).on('click', '.un-like-btn', function() {
+    let btn = $(this);
+    let post_id = btn.data('post');
+    btn.attr('disabled', 'disabled');
+    let data = {};
+    data.post_id = post_id;
+
+    $.ajax({
+      type: "POST",
+      url: "/remove_like_from_post",
+      data: data
+    }).done(function(data) {
+      console.log(data);
+      if(data.status == 'success') {
+        $('#like-btn-' + post_id + '-wrapper').html('<button type="button" style="width: 100%;" class="btn btn-sm btn-default like-btn" id="like-btn-'+ post_id +'" data-post="' + post_id + '" name="button">Like</button>');
+        $("#like-count-" + post_id).html(data.count + " Likes");
+      } else {
+        btn.removeAttr('disabled');
+      }
+    }).fail(function(jqXHR, status, err) {
+      btn.removeAttr('disabled');
+    });
+  });
 });
 
-//function is used to get the users post and upate pagination links
+//====function is used to get the users post and upate pagination links
 function get_user_posts(page) {
   let current_page = 1;
   if(page != 0) {

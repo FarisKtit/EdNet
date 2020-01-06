@@ -36,3 +36,5 @@ Route::post('/accept_relationship', 'RelationshipController@accept_request')->na
 Route::post('/reject_relationship', 'RelationshipController@reject_request')->name('reject_relationship');
 Route::post('/delete_relationship', 'RelationshipController@delete_relationship')->name('delete_relationship');
 Route::post('/cancel_relationship_request', 'RelationshipController@cancel_relationship_request')->name('cancel_relationship_request');
+Route::post('/add_like_to_post', 'LikeController@add_like_to_post')->name('add_like_to_post');
+Route::post('/remove_like_from_post', 'LikeController@remove_like_from_post')->name('remove_like_from_post');

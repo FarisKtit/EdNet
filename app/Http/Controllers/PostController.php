@@ -14,6 +14,7 @@ class PostController extends Controller
     {
       $this->middleware('auth');
     }
+
     /**
      * Store a newly created post for user.
      *
@@ -31,8 +32,6 @@ class PostController extends Controller
 
          $visited_id = $request->visited_id;
 
-
-
          return response()->json(array('status'=>'success'));
        } catch(Exception $e) {
          return response()->json(array('status'=>'error'));
@@ -45,10 +44,24 @@ class PostController extends Controller
        try {
          $visited_id = $request->visited_id;
          $user = User::findOrFail($visited_id);
+         // $posts = DB::table('posts')->join('users', 'posts.poster_id', '=', 'users.id')->join('occupations', 'users.occupation_id', '=', 'occupations.id')
+         // ->select('users.name as user_name', 'users.birthdate', 'posts.created_at', 'posts.id', 'occupations.name as user_occupation', 'posts.content', 'users.profile_image_thumbnail_filename')
+         // ->where('posts.user_wall_id', '=', $visited_id)
+         // ->orderByRaw('posts.id DESC')
+         // ->paginate(5);
+
          $posts = DB::table('posts')->join('users', 'posts.poster_id', '=', 'users.id')->join('occupations', 'users.occupation_id', '=', 'occupations.id')
-         ->select('users.name as user_name', 'users.birthdate', 'posts.created_at', 'occupations.name as user_occupation', 'posts.content', 'users.profile_image_thumbnail_filename')
+         ->leftJoin('likes', 'posts.id', '=', 'likes.post_id')
+         ->select('posts.id', 'users.name as user_name', 'users.birthdate', DB::raw('COUNT(likes.id) as post_likes'), 'posts.created_at', 'occupations.name as user_occupation', 'posts.content', 'users.profile_image_thumbnail_filename')
          ->where('posts.user_wall_id', '=', $visited_id)
          ->orderByRaw('posts.id DESC')
+         ->groupBy('posts.id')
+         ->groupBy('users.name')
+         ->groupBy('users.birthdate')
+         ->groupBy('posts.created_at')
+         ->groupBy('occupations.name')
+         ->groupBy('posts.content')
+         ->groupBy('users.profile_image_thumbnail_filename')
          ->paginate(5);
 
          $html = view('snippets.dashboard.profile.user_profile_posts', compact('posts', 'user', 'visited_id'))->render();
