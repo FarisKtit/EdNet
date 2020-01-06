@@ -35,8 +35,12 @@
         </div>
         <hr>
         <div class="row">
-          <div class="col-md-4">
-            <button type="button" class="btn btn-sm btn-default like-btn" name="button">Like</button>
+          <div class="col-md-4" id="like-btn-{{ $post->id }}-wrapper">
+            @if(\App\Like::where([['post_id', '=', $post->id], ['user_id', '=', auth()->user()->id]])->get()->count() == 0)
+              <button type="button" class="btn btn-sm btn-default like-btn" id="like-btn-{{ $post->id }}" data-post="{{ $post->id }}" name="button">Like</button>
+            @else
+              <button type="button" style="width: 100%;" class="btn btn-sm btn-default un-like-btn" id="un-like-btn-{{ $post->id }}" data-post="{{ $post->id }}" name="button">Unlike</button>
+            @endif
           </div>
           <div class="col-md-4">
             @if(auth()->user()->id == $visited_id)
@@ -46,8 +50,21 @@
           <div class="col-md-4">
             <button type="button" class="btn btn-sm btn-default comment-btn" name="button">Comment</button>
           </div>
-
         </div>
+
+        <div class="row">
+          <div class="col-md-4">
+
+             <p id="like-count-{{ $post->id }}">{{ $post->post_likes }} Likes</p>
+
+          </div>
+          <div class="col-md-4">
+
+          </div>
+          <div class="col-md-4">
+          </div>
+        </div>
+
       </div>
     </div>
     <hr>
