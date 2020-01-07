@@ -29,7 +29,7 @@
         </div>
         <hr>
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-12 user-post-content">
             <p class="">{{ $post->content }}</p>
           </div>
         </div>
@@ -45,7 +45,7 @@
           <div class="col-md-4">
             <button type="button" class="btn btn-sm btn-default add-comment-btn" data-post="{{ $post->id }}" id="create-comment-btn-{{ $post->id }}" name="button">Add Comment</button>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-4" id="toggle-comments-btns-wrapper-{{ $post->id }}">
             <button type="button" class="btn btn-sm btn-default comment-btn" data-post="{{ $post->id }}" id="comment-btn-{{ $post->id }}" name="button">Show Comments</button>
           </div>
         </div>
@@ -60,6 +60,12 @@
 
           </div>
           <div class="col-md-4">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12" id="post-comments-{{ $post->id }}">
+
           </div>
         </div>
 

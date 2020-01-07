@@ -31,6 +31,13 @@
 }
 .user-post hr {
   border-color: #E3E1E1;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.user-post-content p {
+  margin-bottom: 0px;
+  font-weight: 400;
 }
 
 .user-post .like-btn, .comment-btn, .delete-post-btn {
@@ -47,14 +54,31 @@
   text-align: center;
 }
 
+.hide-comment-btn {
+  width: 100%;
+}
+
 /* Add or view comments */
 
 .add-comment-btn {
   width: 100%;
 }
 
+.post-comment-image {
+  height:auto;
+  width: 40px;
+}
 
+.post-comment-image-wrapper {
+  padding-right: 0px;
+}
 
+.post-comment-info-wrapper {
+  padding-left: 5px;
+}
+.post-comment-info-wrapper h5 {
+  margin-top: 0px;
+}
 /* Add comment modal */
 .add_comment_to_post_modal {
   display: none; /* Hidden by default */

@@ -103,9 +103,11 @@ $(document).ready(function() {
 
   //=====Show comments
   $(document).on('click', '.comment-btn', function() {
-    let post_id = $(this).data('post');
+    let btn = $(this);
+    let post_id = btn.data('post');
     let data = {};
     data.post_id = post_id;
+    btn.attr('disabled', 'disabled');
 
     $.ajax({
       type: "GET",
@@ -113,10 +115,23 @@ $(document).ready(function() {
       data: data
     }).done(function(data) {
       console.log(data);
-
+      if(data.status == "success") {
+        $("#toggle-comments-btns-wrapper-" + post_id).html('<button type="button" class="btn btn-sm btn-default hide-comment-btn" data-post="' + post_id + '" id="hide-comment-btn-' + post_id + '" name="button">Hide Comments</button>');
+        $("#post-comments-" + post_id).html(data.html);
+      }
     }).fail(function(jqXHR, status, err) {
 
     });
+  });
+
+  //=====Hide comments
+  $(document).on('click', '.hide-comment-btn', function() {
+    let btn = $(this);
+    let post_id = btn.data('post');
+    btn.attr('disabled', 'disabled');
+    $("#post-comments-" + post_id).html("");
+    $("#toggle-comments-btns-wrapper-" + post_id).html('<button type="button" class="btn btn-sm btn-default comment-btn" data-post="' + post_id + '" id="comment-btn-' + post_id + '" name="button">Show Comments</button>');
+
   });
 
   //=====Add comment to post modal
