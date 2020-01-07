@@ -49,10 +49,11 @@ class PostCommentController extends Controller
   {
     try {
       $post_id = $request->post_id;
-      $comments = PostComment::with(['user', 'post' => function($query) use($post_id) {
-        $query->where('id', '=', $post_id);
-      }])->get();
-      return response()->json(array('status' => 'success', 'comments' => $comments));
+
+      $comments = PostComment::with(['user', 'post'])->where('post_id', '=', $post_id)->orderBy('id', 'DESC')->get();
+
+      $html = view('snippets.dashboard.profile.user_profile_post_comments', compact('comments'))->render();
+      return response()->json(array('status' => 'success', 'comments' => $comments, 'html' => $html));
     } catch(Exception $e) {
       return response()->json(array('status' => 'error'));
     }
