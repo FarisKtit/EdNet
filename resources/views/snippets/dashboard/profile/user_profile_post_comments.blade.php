@@ -42,14 +42,14 @@
         </div>
         <div class="col-md-4">
           @if($comment->post_comment_likes->contains('user_id', auth()->user()->id))
-            <u><h6 class="unlike-comment-btn" data-comment="{{ $comment->id }}" id="unlike-comment-btn-{{ $comment->id }}">Unlike comment</h6></u>
+            <u><h6 class="unlike-comment-btn" data-comment="{{ $comment->id }}" data-post="{{ $comment->post_id }}" id="unlike-comment-btn-{{ $comment->id }}">Unlike comment</h6></u>
           @else
             <u><h6 class="like-comment-btn" data-comment="{{ $comment->id }}" id="like-comment-btn-{{ $comment->id }}">Like comment</h6></u>
           @endif
         </div>
         <div class="col-md-4">
           @if($comment->user->id == auth()->user()->id)
-          <u><h6 class="delete-comment-btn" data-comment="{{ $comment->id }}" id="delete-comment-btn-{{ $comment->id }}" style="color: red;">Delete</h6></u>
+          <u><h6 class="delete-comment-btn" data-post="{{ $comment->post_id }}" data-comment="{{ $comment->id }}" id="delete-comment-btn-{{ $comment->id }}" style="color: red;">Delete</h6></u>
           @endif
         </div>
       </div>

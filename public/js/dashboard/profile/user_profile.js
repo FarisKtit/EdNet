@@ -183,6 +183,7 @@ $(document).ready(function() {
     });
   });
 
+  //======Like comment btn
   $(document).on('click', '.like-comment-btn', function() {
     let post_comment_id = $(this).data('comment');
     let tag = $(this);
@@ -208,6 +209,7 @@ $(document).ready(function() {
     });
   });
 
+  //======Unlike comment btn
   $(document).on('click', '.unlike-comment-btn', function() {
     let post_comment_id = $(this).data('comment');
     let tag = $(this);
@@ -233,6 +235,70 @@ $(document).ready(function() {
     });
 
   });
+
+  //======Delete comment modal
+  $(document).on('click', '.delete-comment-btn', function() {
+    let btn = $(this);
+    let post_comment_id = $(this).data("comment");
+
+    let post_id = $(this).data('post');
+
+    $("#delete_comment_from_post_submit_btn").data('comment', post_comment_id);
+    $("#delete_comment_from_post_submit_btn").data('post', post_id);
+
+    $('.delete-comment-from-post-complete-screen').css('display', 'none');
+    $('.delete-comment-from-post-gif').css('display', 'none');
+    $(".delete-comment-from-post-prompt").css('display', 'block');
+
+    $("#delete_comment_from_post_modal").css('display', 'block');
+  })
+
+  //======Delete comment btn
+  $(document).on('click', "#delete_comment_from_post_submit_btn", function() {
+    let post_comment_id = $(this).data('comment');
+    let post_id = $(this).data('post');
+
+    $('.delete-comment-from-post-complete-screen').css('display', 'none');
+    $(".delete-comment-from-post-prompt").css('display', 'none');
+    $('.delete-comment-from-post-gif').css('display', 'block');
+
+    let data = {};
+    data.post_comment_id = post_comment_id;
+    data.post_id = post_id;
+
+    $.ajax({
+      type: "POST",
+      url: "/delete_comment_from_post",
+      data: data
+    }).done(function(data) {
+      console.log(data);
+      if(data.status == 'success') {
+        get_post_comments(post_id, undefined);
+        $(".delete-comment-from-post-complete-msg").css('color', 'green');
+        $(".delete-comment-from-post-complete-msg").text('Comment was successfully deleted!');
+      } else {
+        $(".delete-comment-from-post-complete-msg").css('color', 'red');
+        $(".delete-comment-from-post-complete-msg").text('Error, please try again later.');
+      }
+      $(".delete-comment-from-post-prompt").css('display', 'none');
+      $('.delete-comment-from-post-gif').css('display', 'none');
+      $('.delete-comment-from-post-complete-screen').css('display', 'block');
+
+    }).fail(function(jqXHR, status, err) {
+      $(".delete-comment-from-post-complete-msg").css('color', 'red');
+      $(".delete-comment-from-post-complete-msg").text('Error, please try again later.');
+      $(".delete-comment-from-post-prompt").css('display', 'none');
+      $('.delete-comment-from-post-gif').css('display', 'none');
+      $('.delete-comment-from-post-complete-screen').css('display', 'block');
+    });
+
+  })
+
+  //======Cancel Delete comment btn or close window btn
+  $(document).on('click', ".cancel-delete-comment-screen-btn, .delete-comment-from-post-complete-screen-close-btn", function() {
+    $("#delete_comment_from_post_modal").css('display', 'none');
+  });
+
 });
 
 //====function is used to get the users post and upate pagination links
@@ -273,6 +339,7 @@ function get_post_comments(post_id, btn) {
   }).done(function(data) {
     console.log(data);
     if(data.status == "success") {
+      $('#comment-count-' + post_id).text(data.count + " Comments");
       $("#toggle-comments-btns-wrapper-" + post_id).html('<button type="button" class="btn btn-sm btn-default hide-comment-btn" data-post="' + post_id + '" id="hide-comment-btn-' + post_id + '" name="button">Hide Comments</button>');
       $("#post-comments-" + post_id).html(data.html);
     }

@@ -61,7 +61,7 @@
           </div>
           <div class="col-md-4">
 
-            <p id="like-count-{{ $post->id }}">{{ count($post->post_comments) }} Comments</p>
+            <p id="comment-count-{{ $post->id }}">{{ count($post->post_comments) }} Comments</p>
 
           </div>
         </div>

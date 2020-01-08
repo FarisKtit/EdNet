@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\PostComment;
+use App\PostCommentLike;
 
 class PostCommentController extends Controller
 {
@@ -52,8 +53,30 @@ class PostCommentController extends Controller
 
       $comments = PostComment::with(['user', 'post_comment_likes', 'post'])->where('post_id', '=', $post_id)->orderBy('id', 'DESC')->get();
 
+      $count = count($comments);
+
       $html = view('snippets.dashboard.profile.user_profile_post_comments', compact('comments'))->render();
-      return response()->json(array('status' => 'success', 'comments' => $comments, 'html' => $html));
+      return response()->json(array('status' => 'success', 'comments' => $comments, 'html' => $html, 'count' => $count));
+    } catch(Exception $e) {
+      return response()->json(array('status' => 'error'));
+    }
+  }
+
+  /**
+   * Delete comments from a post.
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @return \Illuminate\Http\Response
+   */
+  public function delete_comment_from_post(Request $request)
+  {
+    try {
+      $num_rows_affected = PostComment::where([['id', '=', $request->post_comment_id], ['user_id', '=', Auth::user()->id]])->delete();
+      if($num_rows_affected) {
+        return response()->json(array('status' => 'success'));
+      }
+
+      return response()->json(array('status' => 'error'));
     } catch(Exception $e) {
       return response()->json(array('status' => 'error'));
     }
