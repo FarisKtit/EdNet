@@ -63,7 +63,7 @@
           </div>
         </div>
 
-        <div class="row">
+        <div class="row post-comments-wrapper">
           <div class="col-md-12" id="post-comments-{{ $post->id }}">
 
           </div>

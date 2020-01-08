@@ -42,3 +42,5 @@ Route::post('/add_like_to_post', 'LikeController@add_like_to_post')->name('add_l
 Route::post('/remove_like_from_post', 'LikeController@remove_like_from_post')->name('remove_like_from_post');
 
 Route::post('add_comment_to_post', 'PostCommentController@add_comment_to_post')->name('add_comment_to_post');
+Route::post('/add_like_to_post_comment', 'PostCommentLikeController@add_like_to_post_comment')->name('add_like_to_post_comment');
+Route::post('/remove_like_from_post_comment', 'PostCommentLikeController@remove_like_from_post_comment')->name('remove_like_from_post_comment');

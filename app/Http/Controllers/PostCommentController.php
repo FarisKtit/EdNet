@@ -50,7 +50,7 @@ class PostCommentController extends Controller
     try {
       $post_id = $request->post_id;
 
-      $comments = PostComment::with(['user', 'post'])->where('post_id', '=', $post_id)->orderBy('id', 'DESC')->get();
+      $comments = PostComment::with(['user', 'post_comment_likes', 'post'])->where('post_id', '=', $post_id)->orderBy('id', 'DESC')->get();
 
       $html = view('snippets.dashboard.profile.user_profile_post_comments', compact('comments'))->render();
       return response()->json(array('status' => 'success', 'comments' => $comments, 'html' => $html));

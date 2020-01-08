@@ -105,23 +105,7 @@ $(document).ready(function() {
   $(document).on('click', '.comment-btn', function() {
     let btn = $(this);
     let post_id = btn.data('post');
-    let data = {};
-    data.post_id = post_id;
-    btn.attr('disabled', 'disabled');
-
-    $.ajax({
-      type: "GET",
-      url: "/get_all_comments_for_post",
-      data: data
-    }).done(function(data) {
-      console.log(data);
-      if(data.status == "success") {
-        $("#toggle-comments-btns-wrapper-" + post_id).html('<button type="button" class="btn btn-sm btn-default hide-comment-btn" data-post="' + post_id + '" id="hide-comment-btn-' + post_id + '" name="button">Hide Comments</button>');
-        $("#post-comments-" + post_id).html(data.html);
-      }
-    }).fail(function(jqXHR, status, err) {
-
-    });
+    get_post_comments(post_id, btn);
   });
 
   //=====Hide comments
@@ -161,6 +145,8 @@ $(document).ready(function() {
     data.content = comment;
     data.post_id = post_id;
 
+    let btn_to_lock = $('#comment-btn-' + post_id);
+
     $('.add-comment-to-post-form').css('display', 'none');
     $('.add-comment-to-post-complete-screen').css('display', 'none');
     $('.add-comment-to-post-gif').css('display', 'block');
@@ -173,6 +159,11 @@ $(document).ready(function() {
       if(data.status == 'success') {
         $('.add-comment-to-post-complete-msg').text("Comment successfully added.");
         $('.add-comment-to-post-complete-msg').css('color', 'green');
+        if(btn_to_lock) {
+          get_post_comments(post_id, btn_to_lock);
+        } else {
+          get_post_comments(post_id, undefined);
+        }
       } else {
         $('.add-comment-to-post-complete-msg').text("Error, please try again later.");
         $('.add-comment-to-post-complete-msg').css('color', 'red');
@@ -190,6 +181,57 @@ $(document).ready(function() {
       $('.add-comment-to-post-gif').css('display', 'none');
       $('.add-comment-to-post-complete-screen').css('display', 'block');
     });
+  });
+
+  $(document).on('click', '.like-comment-btn', function() {
+    let post_comment_id = $(this).data('comment');
+    let tag = $(this);
+    tag.removeClass('like-comment-btn');
+    tag.text("Please wait..");
+    let data = {};
+    data.post_comment_id = post_comment_id;
+
+    $.ajax({
+      type: 'POST',
+      url: '/add_like_to_post_comment',
+      data: data
+    }).done(function(data) {
+      if(data.status == 'success') {
+        $("#like-count-" + post_comment_id).text(data.count + ' likes');
+        tag.text("Unlike comment");
+        tag.addClass('unlike-comment-btn');
+      } else {
+        tag.addClass('like-comment-btn');
+      }
+    }).fail(function(jqXHR, status, err) {
+      tag.addClass('like-comment-btn');
+    });
+  });
+
+  $(document).on('click', '.unlike-comment-btn', function() {
+    let post_comment_id = $(this).data('comment');
+    let tag = $(this);
+    tag.removeClass('unlike-comment-btn');
+    tag.text("Please wait..");
+    let data = {};
+    data.post_comment_id = post_comment_id;
+
+    $.ajax({
+      type: 'POST',
+      url: '/remove_like_from_post_comment',
+      data: data
+    }).done(function(data) {
+      if(data.status == 'success') {
+        $("#like-count-" + post_comment_id).text(data.count + ' likes');
+        tag.text("Like comment");
+        tag.addClass('like-comment-btn');
+      } else {
+        tag.addClass('unlike-comment-btn');
+      }
+    }).fail(function(jqXHR, status, err) {
+      tag.addClass('unlike-comment-btn');
+    });
+
   });
 });
 
@@ -216,3 +258,25 @@ function get_user_posts(page) {
 
     });
 };
+
+function get_post_comments(post_id, btn) {
+  let data = {};
+  data.post_id = post_id;
+  if(btn != undefined) {
+    btn.attr('disabled', 'disabled');
+  }
+
+  $.ajax({
+    type: "GET",
+    url: "/get_all_comments_for_post",
+    data: data
+  }).done(function(data) {
+    console.log(data);
+    if(data.status == "success") {
+      $("#toggle-comments-btns-wrapper-" + post_id).html('<button type="button" class="btn btn-sm btn-default hide-comment-btn" data-post="' + post_id + '" id="hide-comment-btn-' + post_id + '" name="button">Hide Comments</button>');
+      $("#post-comments-" + post_id).html(data.html);
+    }
+  }).fail(function(jqXHR, status, err) {
+
+  });
+}
