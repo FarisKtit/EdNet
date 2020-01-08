@@ -32,20 +32,22 @@ class ProfileController extends Controller
       INNER JOIN occupations AS o ON u.occupation_id = o.id WHERE u.id = ?", [$user_id]);
       $user = $user[0];
 
-      $posts = DB::table('posts')->join('users', 'posts.poster_id', '=', 'users.id')->join('occupations', 'users.occupation_id', '=', 'occupations.id')
-      ->leftJoin('likes', 'posts.id', '=', 'likes.post_id')
-      ->select('posts.id', 'users.name as user_name', 'users.birthdate', DB::raw('COUNT(likes.id) as post_likes'), 'posts.created_at', 'occupations.name as user_occupation', 'posts.content', 'users.profile_image_thumbnail_filename')
-      ->where('posts.user_wall_id', '=', $visited_id)
-      ->orderByRaw('posts.id DESC')
-      ->groupBy('posts.id')
-      ->groupBy('users.name')
-      ->groupBy('users.birthdate')
-      ->groupBy('posts.created_at')
-      ->groupBy('occupations.name')
-      ->groupBy('posts.content')
-      ->groupBy('users.profile_image_thumbnail_filename')
-      ->paginate(5);
+      // $posts = DB::table('posts')->join('users', 'posts.poster_id', '=', 'users.id')->join('occupations', 'users.occupation_id', '=', 'occupations.id')
+      // ->leftJoin('likes', 'posts.id', '=', 'likes.post_id')
+      // ->leftJoin('post_comments', 'posts.id', '=', 'post_comments.post_id')
+      // ->select('posts.id', 'users.name as user_name', 'users.birthdate', DB::raw('COUNT(likes.id) as post_likes'), DB::raw('COUNT(post_comments.id) as post_comments_count'),'posts.created_at', 'occupations.name as user_occupation', 'posts.content', 'users.profile_image_thumbnail_filename')
+      // ->where('posts.user_wall_id', '=', $visited_id)
+      // ->orderByRaw('posts.id DESC')
+      // ->groupBy('posts.id')
+      // ->groupBy('users.name')
+      // ->groupBy('users.birthdate')
+      // ->groupBy('posts.created_at')
+      // ->groupBy('occupations.name')
+      // ->groupBy('posts.content')
+      // ->groupBy('users.profile_image_thumbnail_filename')
+      // ->paginate(5);
 
+      $posts = Post::with('user', 'likes', 'post_comments')->where('posts.user_wall_id', '=', $visited_id)->orderBy('posts.id', 'DESC')->paginate(5);
 
       return view('dashboard.profile.user_profile', compact('user', 'posts', 'visited_id'));
     }
@@ -87,20 +89,21 @@ class ProfileController extends Controller
         // ->orderByRaw('posts.id DESC')
         // ->paginate(5);
 
-        $posts = DB::table('posts')->join('users', 'posts.poster_id', '=', 'users.id')->join('occupations', 'users.occupation_id', '=', 'occupations.id')
-        ->leftJoin('likes', 'posts.id', '=', 'likes.post_id')
-        ->select('posts.id', 'users.name as user_name', 'users.birthdate', DB::raw('COUNT(likes.id) as post_likes'), 'posts.created_at', 'occupations.name as user_occupation', 'posts.content', 'users.profile_image_thumbnail_filename')
-        ->where('posts.user_wall_id', '=', $visited_id)
-        ->orderByRaw('posts.id DESC')
-        ->groupBy('posts.id')
-        ->groupBy('users.name')
-        ->groupBy('users.birthdate')
-        ->groupBy('posts.created_at')
-        ->groupBy('occupations.name')
-        ->groupBy('posts.content')
-        ->groupBy('users.profile_image_thumbnail_filename')
-        ->paginate(5);
+        // $posts = DB::table('posts')->join('users', 'posts.poster_id', '=', 'users.id')->join('occupations', 'users.occupation_id', '=', 'occupations.id')
+        // ->leftJoin('likes', 'posts.id', '=', 'likes.post_id')
+        // ->select('posts.id', 'users.name as user_name', 'users.birthdate', DB::raw('COUNT(likes.id) as post_likes'), 'posts.created_at', 'occupations.name as user_occupation', 'posts.content', 'users.profile_image_thumbnail_filename')
+        // ->where('posts.user_wall_id', '=', $visited_id)
+        // ->orderByRaw('posts.id DESC')
+        // ->groupBy('posts.id')
+        // ->groupBy('users.name')
+        // ->groupBy('users.birthdate')
+        // ->groupBy('posts.created_at')
+        // ->groupBy('occupations.name')
+        // ->groupBy('posts.content')
+        // ->groupBy('users.profile_image_thumbnail_filename')
+        // ->paginate(5);
 
+        $posts = Post::with('user', 'likes', 'post_comments')->where('posts.user_wall_id', '=', $visited_id)->orderBy('posts.id', 'DESC')->paginate(5);
 
         $res = DB::select("SELECT id FROM relationships_users WHERE ((requester_id = ? AND responder_id = ?) OR (requester_id = ? AND responder_id = ?)) AND accepted = 1",
         [$visited_id, $visitor_id, $visitor_id, $visited_id]);
