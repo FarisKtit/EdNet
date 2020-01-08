@@ -14,12 +14,12 @@
             <div class="row">
               <div class="col-md-3 user-post-img">
                 <br>
-                <img src="/storage/{{ $post->profile_image_thumbnail_filename }}" class="img-thumbnail" alt="">
+                <img src="/storage/{{ $post->user->profile_image_thumbnail_filename }}" class="img-thumbnail" alt="">
 
               </div>
               <div class="col-md-9">
-                <h3>{{ $post->user_name }}</h3>
-                <h5>{{ $post->user_occupation }}</h5>
+                <h3>{{ $post->user->name }}</h3>
+                <h5>{{ $post->user->occupation->name }}</h5>
               </div>
             </div>
           </div>
@@ -36,10 +36,10 @@
         <hr>
         <div class="row">
           <div class="col-md-4" id="like-btn-{{ $post->id }}-wrapper">
-            @if(\App\Like::where([['post_id', '=', $post->id], ['user_id', '=', auth()->user()->id]])->get()->count() == 0)
-              <button type="button" class="btn btn-sm btn-default like-btn" id="like-btn-{{ $post->id }}" data-post="{{ $post->id }}" name="button">Like</button>
-            @else
+            @if($post->likes->contains('user_id', auth()->user()->id))
               <button type="button" style="width: 100%;" class="btn btn-sm btn-default un-like-btn" id="un-like-btn-{{ $post->id }}" data-post="{{ $post->id }}" name="button">Unlike</button>
+            @else
+              <button type="button" class="btn btn-sm btn-default like-btn" id="like-btn-{{ $post->id }}" data-post="{{ $post->id }}" name="button">Like</button>
             @endif
           </div>
           <div class="col-md-4">
@@ -53,13 +53,16 @@
         <div class="row">
           <div class="col-md-4">
 
-             <p id="like-count-{{ $post->id }}">{{ $post->post_likes }} Likes</p>
+             <p id="like-count-{{ $post->id }}">{{ count($post->likes) }} Likes</p>
 
           </div>
           <div class="col-md-4">
 
           </div>
           <div class="col-md-4">
+
+            <p id="like-count-{{ $post->id }}">{{ count($post->post_comments) }} Comments</p>
+
           </div>
         </div>
 
