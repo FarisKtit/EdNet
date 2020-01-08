@@ -23,4 +23,9 @@ class PostComment extends Model
   public function post_comment_replies() {
     return $this->hasMany('App\PostCommentReply');
   }
+
+  public function post_comment_likes() {
+    return $this->hasMany('App\PostCommentLike');
+  }
+
 }
