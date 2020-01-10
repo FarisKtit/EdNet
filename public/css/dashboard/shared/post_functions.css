@@ -1,30 +1,4 @@
-#profile-img-upload-wrapper {
-  text-align: center;
-}
-#profile-img-upload-btn {
-  margin-top: 15px;
-  color: white;
-}
-#profile-img-wrapper {
-  text-align: center;
-}
-#profile-name {
-  margin-top: 15px;
-  text-align: center;
-}
-#profile-occupation {
-  text-align: center;
-  margin-top: 0px;
-}
-.profile-btns-section {
-  text-align: center;
-  margin-bottom: 10px;
-}
-.profile-about-section {
-  text-align: center;
-  padding-top: 10px;
-}
-/* .user-post {
+.user-post {
   background-color: #FDFCFC;
   border-radius: 5px;
   padding-bottom: 10px;
@@ -43,7 +17,6 @@
 .user-post .like-btn, .comment-btn, .delete-post-btn {
   width: 100%;
 }
-
 #post-creation-success-alert {
   display: none;
 }
@@ -61,7 +34,7 @@
 
 /* Add or view comments */
 
-/* .add-comment-btn {
+.add-comment-btn {
   width: 100%;
 }
 
@@ -79,28 +52,28 @@
 }
 .post-comment-info-wrapper h5 {
   margin-top: 0px;
-} */
+}
 /* Add comment modal */
-/* .add_comment_to_post_modal {
-  display: none;
-  position: fixed;
-  z-index: 1;
+.add_comment_to_post_modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
   left: 0;
   top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0,0.4);
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
   text-align: center;
 }
 
 .add_comment_to_post_modal-content {
   background-color: #fefefe;
-  margin: 15% auto;
+  margin: 15% auto; /* 15% from the top and centered */
   padding: 20px;
   border: 1px solid #888;
-  width: 80%;
+  width: 80%; /* Could be more or less, depending on screen size */
 }
 
 .add-comment-to-post-gif {
@@ -109,12 +82,46 @@
 
 .add-comment-to-post-complete-screen {
   display: none;
-} */
+}
+
+/* Delete comment modal */
+.delete_comment_from_post_modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  text-align: center;
+}
+
+.delete_comment_from_post_modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+.delete-comment-from-post-gif {
+  display: none;
+}
+
+.delete-comment-from-post-complete-screen {
+  display: none;
+}
+
+
+
 
 
 /* Post comments */
 
-/* .post-comments-wrapper {
+.post-comments-wrapper {
   max-height: 400px;
   overflow-x: scroll;
 }
@@ -129,7 +136,7 @@
     -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
 }
 /* Post Comment buttons */
-/* .post-comment-btns-wrapper h6 {
+.post-comment-btns-wrapper h6 {
   margin-bottom: 0px;
 }
 
@@ -137,6 +144,10 @@
   cursor:pointer;
 }
 
+.unlike-comment-btn:hover {
+  cursor:pointer;
+}
+
 .delete-comment-btn:hover {
   cursor:pointer;
-}   */
+}
