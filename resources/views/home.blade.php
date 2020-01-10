@@ -1,8 +1,10 @@
 @extends('layouts.dashboard')
 @section('styles')
     <link href="{{ asset('css/dashboard/home.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/dashboard/shared/post_functions.css') }}" rel="stylesheet">
 @stop
 @section('content')
+@include('snippets.dashboard.shared.post_modals')
 <div class="row">
   <div class="col-md-3">
       <div class="home-instructions">
@@ -46,3 +48,6 @@
 </div>
 
 @endsection
+@section('scripts')
+  <script src="{{ asset('js/dashboard/shared/post_functions.js') }}"></script>
+@stop

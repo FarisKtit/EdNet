@@ -44,24 +44,24 @@ class HomeController extends Controller
         $posts = DB::select("
         SELECT *
         FROM (
-          SELECT p.id, u.name as poster, uu.name as receiver, p.content, p.created_at FROM posts as p INNER JOIN users as u ON p.poster_id = u.id INNER JOIN users as uu ON p.user_wall_id = uu.id
+          SELECT p.id, u.name as poster, u.profile_image_thumbnail_filename as poster_img, uu.name as receiver, uu.profile_image_thumbnail_filename as receiver_img,p.content, p.created_at FROM posts as p INNER JOIN users as u ON p.poster_id = u.id INNER JOIN users as uu ON p.user_wall_id = uu.id
           WHERE p.poster_id IN (
                                   SELECT requester_id as user_id FROM relationships_users WHERE responder_id = ? AND accepted = 1
                                   UNION ALL
                                   SELECT responder_id as user_id FROM relationships_users WHERE requester_id = ? AND accepted = 1
                                 )
           UNION ALL
-          SELECT p.id, u.name as poster, uu.name as receiver, p.content, p.created_at FROM posts as p INNER JOIN users as u ON p.poster_id = u.id INNER JOIN users as uu ON p.user_wall_id = uu.id
+          SELECT p.id, u.name as poster, u.profile_image_thumbnail_filename as poster_img, uu.name as receiver, uu.profile_image_thumbnail_filename as receiver_img,p.content, p.created_at FROM posts as p INNER JOIN users as u ON p.poster_id = u.id INNER JOIN users as uu ON p.user_wall_id = uu.id
           WHERE p.user_wall_id IN (
                                   SELECT requester_id as user_id FROM relationships_users WHERE responder_id = ? AND accepted = 1
                                   UNION ALL
                                   SELECT responder_id as user_id FROM relationships_users WHERE requester_id = ? AND accepted = 1
                                 )
           UNION ALL
-          SELECT p.id, u.name as poster, uu.name as receiver, p.content, p.created_at FROM posts as p INNER JOIN users as u ON p.poster_id = u.id INNER JOIN users as uu ON p.user_wall_id = uu.id
+          SELECT p.id, u.name as poster, u.profile_image_thumbnail_filename as poster_img, uu.name as receiver, uu.profile_image_thumbnail_filename as receiver_img,p.content, p.created_at FROM posts as p INNER JOIN users as u ON p.poster_id = u.id INNER JOIN users as uu ON p.user_wall_id = uu.id
           WHERE p.poster_id = ?
           UNION
-          SELECT p.id, u.name as poster, uu.name as receiver, p.content, p.created_at FROM posts as p INNER JOIN users as u ON p.poster_id = u.id INNER JOIN users as uu ON p.user_wall_id = uu.id
+          SELECT p.id, u.name as poster, u.profile_image_thumbnail_filename as poster_img, uu.name as receiver, uu.profile_image_thumbnail_filename as receiver_img,p.content, p.created_at FROM posts as p INNER JOIN users as u ON p.poster_id = u.id INNER JOIN users as uu ON p.user_wall_id = uu.id
           WHERE p.user_wall_id = ?
         ) A
         ORDER BY id DESC
